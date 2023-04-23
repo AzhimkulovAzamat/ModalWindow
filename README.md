@@ -1,2 +1,2 @@
 # ModalWindow
-[![Release](https://jitpack.io/v/AzhimkulovAzamat/ModalWindow.svg)]
+![Release](https://jitpack.io/v/AzhimkulovAzamat/ModalWindow.svg)
