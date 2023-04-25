@@ -3,17 +3,16 @@ package net.breez.modalscreens
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.LayoutRes
+import net.breez.modalscreens.model.DialogType
 
 /**
  * Created by azamat on 23/12/22.
  */
 
 class BreezDialogViewHolder(
-    @LayoutRes val layoutId: Int,
+    val dialogType: DialogType,
     delegate: CustomViewHolderDelegate
 ) :
     DialogViewHolderContract,
@@ -23,7 +22,7 @@ class BreezDialogViewHolder(
 
     override fun initializeView(context: Context): DialogViewHolderContract {
         rootView = LayoutInflater.from(context)
-            .inflate(layoutId, null, false)
+            .inflate(dialogType.getLayoutId(), null, false)
         return this
     }
 
@@ -46,8 +45,8 @@ class BreezDialogViewHolder(
         value: String,
         onClicked: () -> Unit
     ): DialogViewHolderContract {
-        rootView.findViewById<Button>(R.id.positiveButton)?.text = value
-        rootView.findViewById<Button>(R.id.positiveButton)?.setOnClickListener { onClicked() }
+        rootView.findViewById<TextView>(R.id.positiveButton)?.text = value
+        rootView.findViewById<TextView>(R.id.positiveButton)?.setOnClickListener { onClicked() }
         return this
     }
 
@@ -55,7 +54,7 @@ class BreezDialogViewHolder(
         value: String,
         onClicked: () -> Unit
     ): DialogViewHolderContract {
-        rootView.findViewById<Button>(R.id.negativeButton)?.apply {
+        rootView.findViewById<TextView>(R.id.negativeButton)?.apply {
             text = value
             visibility = View.VISIBLE
             setOnClickListener { onClicked() }

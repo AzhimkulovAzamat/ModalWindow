@@ -7,16 +7,14 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import net.breez.modalscreens.CustomViewSetter
 import net.breez.modalscreens.OnClickedListener
+import net.breez.modalscreens.alert.BaseDialogBuilderContract
 
 /**
  * Created by azamat on 23/4/23.
  */
 
-interface AlternativeDialogBuilderContract {
+interface AlternativeDialogBuilderContract: BaseDialogBuilderContract {
     fun setIcon(@DrawableRes drawableId: Int): AlternativeDialogBuilderContract
-
-    fun setTitle(@StringRes title: Int): AlternativeDialogBuilderContract
-    fun setTitle(title: String): AlternativeDialogBuilderContract
 
     fun setMessage(@StringRes message: Int): AlternativeDialogBuilderContract
     fun setMessage(message: String): AlternativeDialogBuilderContract
@@ -31,7 +29,6 @@ interface AlternativeDialogBuilderContract {
 
     fun setNegativeClickedListener(onClicked: OnClickedListener): AlternativeDialogBuilderContract
 
-    fun setCancelable(cancelable:Boolean): AlternativeDialogBuilderContract
     fun setView(@IdRes viewId:Int, customViewSetter: CustomViewSetter): AlternativeDialogBuilderContract
     fun fromOptions(@StringRes messageId: Int): AlternativeDialogBuilderContract
 

@@ -2,6 +2,7 @@ package net.breez.modalscreens
 
 import androidx.annotation.LayoutRes
 import net.breez.modalscreens.model.DialogModel
+import net.breez.modalscreens.model.DialogType
 
 /**
  * Created by azamat on 23/12/22.
@@ -16,10 +17,10 @@ object DialogBuilderPreferences {
     var notificationViewHolderDelegate: CustomViewHolderDelegate = Simple()
     var alternativeViewHolderDelegate: CustomViewHolderDelegate = Simple()
     var notificationViewHolder: DialogViewHolderContract = BreezDialogViewHolder(
-        notificationLayoutId, notificationViewHolderDelegate
+        DialogType.NOTIFICATION, notificationViewHolderDelegate
     )
     var alternativeViewHolder: DialogViewHolderContract = BreezDialogViewHolder(
-        alternativeLayoutId, alternativeViewHolderDelegate
+        DialogType.ALTERNATIVE, alternativeViewHolderDelegate
     )
     var options = mapOf<Int, DialogModel>()
 }

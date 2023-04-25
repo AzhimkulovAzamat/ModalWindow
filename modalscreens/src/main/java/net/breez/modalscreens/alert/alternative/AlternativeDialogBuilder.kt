@@ -27,7 +27,7 @@ class AlternativeDialogBuilder(private val dialogViewHolder: DialogViewHolderCon
     private var negativeButtonTitle: StringOrResource? = null
 
     private var isCancelable: Boolean = false
-    private val backgroundId: Int = R.drawable.default_dialog_bakground
+    private var backgroundId: Int = R.drawable.default_dialog_bakground
 
     private val customViewSetters = mutableMapOf<Int, CustomViewSetter>()
 
@@ -84,12 +84,17 @@ class AlternativeDialogBuilder(private val dialogViewHolder: DialogViewHolderCon
     }
 
     override fun setNegativeClickedListener(onClicked: OnClickedListener): AlternativeDialogBuilder {
-        this.onNegativeClicked = onNegativeClicked
+        this.onNegativeClicked = onClicked
         return this
     }
 
     override fun setCancelable(cancelable: Boolean): AlternativeDialogBuilder {
         isCancelable = cancelable
+        return this
+    }
+
+    override fun setBackground(resourceId: Int): AlternativeDialogBuilder {
+        backgroundId = resourceId
         return this
     }
 

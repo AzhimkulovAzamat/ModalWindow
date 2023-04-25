@@ -24,7 +24,7 @@ class NotificationDialogBuilder(private val dialogViewHolder: DialogViewHolderCo
     private var positiveButtonTitle: StringOrResource? = null
 
     private var isCancelable: Boolean = false
-    private val backgroundId: Int = R.drawable.default_dialog_bakground
+    private var backgroundId: Int = R.drawable.default_dialog_bakground
 
     private val customViewSetters = mutableMapOf<Int, CustomViewSetter>()
 
@@ -72,6 +72,11 @@ class NotificationDialogBuilder(private val dialogViewHolder: DialogViewHolderCo
 
     override fun setCancelable(cancelable: Boolean): NotificationDialogBuilderContract {
         isCancelable = cancelable
+        return this
+    }
+
+    override fun setBackground(resourceId: Int): NotificationDialogBuilderContract {
+        backgroundId = resourceId
         return this
     }
 

@@ -7,16 +7,14 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import net.breez.modalscreens.CustomViewSetter
 import net.breez.modalscreens.OnClickedListener
+import net.breez.modalscreens.alert.BaseDialogBuilderContract
 
 /**
  * Created by azamat on 22/4/23.
  */
 
-interface NotificationDialogBuilderContract {
+interface NotificationDialogBuilderContract: BaseDialogBuilderContract {
     fun setIcon(@DrawableRes drawableId: Int): NotificationDialogBuilderContract
-
-    fun setTitle(@StringRes title: Int): NotificationDialogBuilderContract
-    fun setTitle(title: String): NotificationDialogBuilderContract
 
     fun setMessage(@StringRes message: Int): NotificationDialogBuilderContract
     fun setMessage(message: String): NotificationDialogBuilderContract
@@ -26,7 +24,6 @@ interface NotificationDialogBuilderContract {
 
     fun setConfirmButtonClickedListener(onClicked: OnClickedListener): NotificationDialogBuilderContract
 
-    fun setCancelable(cancelable:Boolean): NotificationDialogBuilderContract
     fun setView(@IdRes viewId:Int, customViewSetter: CustomViewSetter): NotificationDialogBuilderContract
     fun fromOptions(@StringRes messageId: Int): NotificationDialogBuilderContract
 
