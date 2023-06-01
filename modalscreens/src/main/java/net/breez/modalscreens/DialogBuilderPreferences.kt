@@ -22,5 +22,5 @@ object DialogBuilderPreferences {
     var alternativeViewHolder: DialogViewHolderContract = BreezDialogViewHolder(
         DialogType.ALTERNATIVE, alternativeViewHolderDelegate
     )
-    var options = mapOf<Int, DialogModel>()
+    var options = mutableMapOf<Int, DialogModel>()
 }

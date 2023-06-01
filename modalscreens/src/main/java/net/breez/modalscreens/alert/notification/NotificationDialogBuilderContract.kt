@@ -26,6 +26,4 @@ interface NotificationDialogBuilderContract: BaseDialogBuilderContract {
 
     fun setView(@IdRes viewId:Int, customViewSetter: CustomViewSetter): NotificationDialogBuilderContract
     fun fromOptions(@StringRes messageId: Int): NotificationDialogBuilderContract
-
-    fun create(context: Context): AlertDialog
 }
