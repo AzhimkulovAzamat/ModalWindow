@@ -13,7 +13,7 @@ import net.breez.modalscreens.model.StringOrResource
  * Created by azamat on 23/4/23.
  */
 
-class AlternativeDialogBuilder(private val dialogViewHolder: DialogViewHolderContract = DialogBuilderPreferences.alternativeViewHolder) :
+class AlternativeDialogBuilder(private val dialogViewHolder: AlternativeDialogViewHolderContract = DialogBuilderPreferences.alternativeViewHolder) :
     AlternativeDialogBuilderContract {
 
     private var icon: Int? = null
@@ -58,17 +58,17 @@ class AlternativeDialogBuilder(private val dialogViewHolder: DialogViewHolderCon
         return this
     }
 
-    override fun setPositiveButtonTitle(title: Int): AlternativeDialogBuilder {
+    override fun setPositiveTitle(title: Int): AlternativeDialogBuilder {
         this.positiveButtonTitle = StringOrResource(title)
         return this
     }
 
-    override fun setPositiveButtonTitle(title: String): AlternativeDialogBuilder {
+    override fun setPositiveTitle(title: String): AlternativeDialogBuilder {
         this.positiveButtonTitle = StringOrResource(title)
         return this
     }
 
-    override fun setPositiveButtonClickedListener(onClicked: OnClickedListener): AlternativeDialogBuilder {
+    override fun setPositiveClickedListener(onClicked: OnClickedListener): AlternativeDialogBuilder {
         this.onPositiveClicked = onClicked
         return this
     }
@@ -132,12 +132,12 @@ class AlternativeDialogBuilder(private val dialogViewHolder: DialogViewHolderCon
             onPositiveClicked?.invoke()
             alertDialog.dismiss()
         }
-        negativeButtonTitle?.let {
-            dialogViewHolder.setupNegativeButton(it.getString(context)) {
-                onNegativeClicked?.invoke()
-                alertDialog.dismiss()
-            }
+
+        dialogViewHolder.setupNegativeButton(negativeButtonTitle!!.getString(context)) {
+            onNegativeClicked?.invoke()
+            alertDialog.dismiss()
         }
+
         dialogModel?.let { dialogViewHolder.setDialogModel(it, dialogViewHolder.getDialogView()) }
         alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialogViewHolder.setBackground(backgroundId)

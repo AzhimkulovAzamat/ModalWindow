@@ -13,8 +13,14 @@ import net.breez.modalscreens.alert.BaseDialogBuilderContract
  * Created by azamat on 22/4/23.
  */
 
-interface NotificationDialogBuilderContract: BaseDialogBuilderContract {
+interface NotificationDialogBuilderContract : BaseDialogBuilderContract {
     fun setIcon(@DrawableRes drawableId: Int): NotificationDialogBuilderContract
+
+    override fun setTitle(title: Int): NotificationDialogBuilderContract
+    override fun setTitle(title: String): NotificationDialogBuilderContract
+
+    override fun setBackground(resourceId: Int): NotificationDialogBuilderContract
+    override fun setCancelable(cancelable: Boolean): NotificationDialogBuilderContract
 
     fun setMessage(@StringRes message: Int): NotificationDialogBuilderContract
     fun setMessage(message: String): NotificationDialogBuilderContract
@@ -24,6 +30,10 @@ interface NotificationDialogBuilderContract: BaseDialogBuilderContract {
 
     fun setConfirmButtonClickedListener(onClicked: OnClickedListener): NotificationDialogBuilderContract
 
-    fun setView(@IdRes viewId:Int, customViewSetter: CustomViewSetter): NotificationDialogBuilderContract
+    fun setView(
+        @IdRes viewId: Int,
+        customViewSetter: CustomViewSetter
+    ): NotificationDialogBuilderContract
+
     fun fromOptions(@StringRes messageId: Int): NotificationDialogBuilderContract
 }

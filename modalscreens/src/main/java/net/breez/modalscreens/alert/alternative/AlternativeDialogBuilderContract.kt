@@ -24,10 +24,10 @@ interface AlternativeDialogBuilderContract : BaseDialogBuilderContract {
     fun setMessage(@StringRes message: Int): AlternativeDialogBuilderContract
     fun setMessage(message: String): AlternativeDialogBuilderContract
 
-    fun setPositiveButtonTitle(@StringRes title: Int): AlternativeDialogBuilderContract
-    fun setPositiveButtonTitle(title: String): AlternativeDialogBuilderContract
+    fun setPositiveTitle(@StringRes title: Int): AlternativeDialogBuilderContract
+    fun setPositiveTitle(title: String): AlternativeDialogBuilderContract
 
-    fun setPositiveButtonClickedListener(onClicked: OnClickedListener): AlternativeDialogBuilderContract
+    fun setPositiveClickedListener(onClicked: OnClickedListener): AlternativeDialogBuilderContract
 
     fun setNegativeTitle(@StringRes title: Int): AlternativeDialogBuilderContract
     fun setNegativeTitle(title: String): AlternativeDialogBuilderContract

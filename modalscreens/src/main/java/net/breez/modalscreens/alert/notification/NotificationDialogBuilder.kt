@@ -13,7 +13,7 @@ import net.breez.modalscreens.model.StringOrResource
  * Created by azamat on 22/4/23.
  */
 
-class NotificationDialogBuilder(private val dialogViewHolder: DialogViewHolderContract = DialogBuilderPreferences.notificationViewHolder) :
+class NotificationDialogBuilder(private val dialogViewHolder: NotificationDialogViewHolderContract = DialogBuilderPreferences.notificationViewHolder) :
     NotificationDialogBuilderContract {
 
     private var icon: Int? = null
@@ -109,7 +109,7 @@ class NotificationDialogBuilder(private val dialogViewHolder: DialogViewHolderCo
         dialogViewHolder.setupTitle(title!!.getString(context))
         val alertDialog: AlertDialog =
             AlertDialog.Builder(context).setView(dialogViewHolder.getDialogView()).create()
-        dialogViewHolder.setupPositiveButton(positiveButtonTitle!!.getString(context)) {
+        dialogViewHolder.setupSubmitButton(positiveButtonTitle!!.getString(context)) {
             onPositiveClicked?.invoke()
             alertDialog.dismiss()
         }

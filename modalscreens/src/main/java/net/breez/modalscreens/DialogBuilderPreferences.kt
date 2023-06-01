@@ -1,6 +1,8 @@
 package net.breez.modalscreens
 
 import androidx.annotation.LayoutRes
+import net.breez.modalscreens.alert.alternative.AlternativeDialogViewHolder
+import net.breez.modalscreens.alert.notification.NotificationDialogViewHolder
 import net.breez.modalscreens.model.DialogModel
 import net.breez.modalscreens.model.DialogType
 
@@ -16,11 +18,7 @@ object DialogBuilderPreferences {
     var alternativeLayoutId: Int = R.layout.breez_alternative_dialog_layout
     var notificationViewHolderDelegate: CustomViewHolderDelegate = Simple()
     var alternativeViewHolderDelegate: CustomViewHolderDelegate = Simple()
-    var notificationViewHolder: DialogViewHolderContract = BreezDialogViewHolder(
-        DialogType.NOTIFICATION, notificationViewHolderDelegate
-    )
-    var alternativeViewHolder: DialogViewHolderContract = BreezDialogViewHolder(
-        DialogType.ALTERNATIVE, alternativeViewHolderDelegate
-    )
+    var notificationViewHolder: NotificationDialogViewHolderContract = NotificationDialogViewHolder(notificationViewHolderDelegate)
+    var alternativeViewHolder: AlternativeDialogViewHolderContract = AlternativeDialogViewHolder(alternativeViewHolderDelegate)
     var options = mutableMapOf<Int, DialogModel>()
 }
