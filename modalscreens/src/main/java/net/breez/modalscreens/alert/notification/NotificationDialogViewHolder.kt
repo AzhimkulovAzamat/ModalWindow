@@ -28,7 +28,7 @@ open class NotificationDialogViewHolder(
 
     override fun initializeView(context: Context): NotificationDialogViewHolderContract {
         rootView = LayoutInflater.from(context)
-            .inflate(DialogBuilderPreferences.alternativeLayoutId, null, false)
+            .inflate(DialogBuilderPreferences.notificationLayoutId, null, false)
         return this
     }
 
