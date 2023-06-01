@@ -11,6 +11,7 @@ import androidx.appcompat.app.AlertDialog
 
 interface BaseDialogBuilderContract {
 
+    var dismiss: () -> Unit
     fun setTitle(@StringRes title: Int): BaseDialogBuilderContract
     fun setTitle(title: String): BaseDialogBuilderContract
     fun setCancelable(cancelable: Boolean): BaseDialogBuilderContract

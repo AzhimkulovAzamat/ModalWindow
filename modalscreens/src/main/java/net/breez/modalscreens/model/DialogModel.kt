@@ -1,7 +1,5 @@
 package net.breez.modalscreens.model
 
-import net.breez.modalscreens.model.StringOrResource
-
 /**
  * Created by azamat on 6/3/23.
  */

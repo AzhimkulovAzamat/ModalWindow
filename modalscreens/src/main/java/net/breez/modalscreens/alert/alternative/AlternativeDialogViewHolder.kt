@@ -5,17 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import net.breez.modalscreens.*
+import net.breez.modalscreens.AlternativeDialogViewHolderContract
+import net.breez.modalscreens.DialogBuilderPreferences
+import net.breez.modalscreens.R
 
 /**
  * Created by azamat on 1/6/23.
  */
 
-open class AlternativeDialogViewHolder(
-    delegate: CustomViewHolderDelegate = DialogBuilderPreferences.alternativeViewHolderDelegate
-) :
-    AlternativeDialogViewHolderContract,
-    CustomViewHolderDelegate by delegate {
+open class AlternativeDialogViewHolder :
+    AlternativeDialogViewHolderContract{
 
     private lateinit var rootView: View
 

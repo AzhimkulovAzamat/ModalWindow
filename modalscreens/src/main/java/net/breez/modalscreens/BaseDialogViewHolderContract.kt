@@ -8,7 +8,7 @@ import androidx.annotation.DrawableRes
  * Created by azamat on 22/4/23.
  */
 
-interface BaseDialogViewHolderContract : CustomViewHolderDelegate {
+interface BaseDialogViewHolderContract {
     var iconViewId: Int
     var titleViewId: Int
     var messageViewId: Int
@@ -21,8 +21,7 @@ interface BaseDialogViewHolderContract : CustomViewHolderDelegate {
     fun setBackground(@DrawableRes backgroundId: Int): BaseDialogViewHolderContract
 }
 
-interface AlternativeDialogViewHolderContract : BaseDialogViewHolderContract,
-    CustomViewHolderDelegate {
+interface AlternativeDialogViewHolderContract : BaseDialogViewHolderContract {
 
     var positiveButtonId: Int
     var negativeButtonId: Int
@@ -37,8 +36,7 @@ interface AlternativeDialogViewHolderContract : BaseDialogViewHolderContract,
     ): AlternativeDialogViewHolderContract
 }
 
-interface NotificationDialogViewHolderContract : BaseDialogViewHolderContract,
-    CustomViewHolderDelegate {
+interface NotificationDialogViewHolderContract : BaseDialogViewHolderContract {
 
     var submitButtonId: Int
 

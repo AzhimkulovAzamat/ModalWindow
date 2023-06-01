@@ -5,18 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import net.breez.modalscreens.*
-import net.breez.modalscreens.Simple
+import net.breez.modalscreens.DialogBuilderPreferences
+import net.breez.modalscreens.NotificationDialogViewHolderContract
+import net.breez.modalscreens.R
 
 /**
  * Created by azamat on 1/6/23.
  */
 
-open class NotificationDialogViewHolder(
-    delegate: CustomViewHolderDelegate = DialogBuilderPreferences.notificationViewHolderDelegate
-) :
-    NotificationDialogViewHolderContract,
-    CustomViewHolderDelegate by delegate {
+open class NotificationDialogViewHolder :
+    NotificationDialogViewHolderContract {
 
     private lateinit var rootView: View
 
