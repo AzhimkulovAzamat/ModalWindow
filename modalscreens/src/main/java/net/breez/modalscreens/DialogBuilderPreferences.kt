@@ -21,14 +21,14 @@ object DialogBuilderPreferences {
     @DrawableRes
     internal var backgroundId: Int = R.drawable.default_dialog_bakground
 
-    val defaultNotificationLayoutIds = object : NotificationLayoutIdSetup {
+    var defaultNotificationLayoutIds = object : NotificationLayoutIdSetup {
         override var iconViewId = R.id.imageView_icon
         override var titleViewId = R.id.textView_title
         override var messageViewId = R.id.textView_message
         override var submitButtonId: Int = R.id.positiveButton
     }
 
-    val defaultAlternativeLayoutIds = object : AlternativeLayoutIdSetup {
+    var defaultAlternativeLayoutIds = object : AlternativeLayoutIdSetup {
         override var iconViewId = R.id.imageView_icon
         override var titleViewId = R.id.textView_title
         override var messageViewId = R.id.textView_message
