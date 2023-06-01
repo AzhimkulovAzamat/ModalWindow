@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import net.breez.modalscreens.*
+import net.breez.modalscreens.DialogBuilderPreferences.defaultNotificationLayoutIds
 import net.breez.modalscreens.model.DialogModel
 import net.breez.modalscreens.model.StringOrResource
 
@@ -13,7 +14,12 @@ import net.breez.modalscreens.model.StringOrResource
  * Created by azamat on 22/4/23.
  */
 
-class NotificationDialogBuilderImpl(private val dialogViewHolder: NotificationDialogViewHolderContract = NotificationDialogViewHolder()) :
+class NotificationDialogBuilderImpl(
+    notificationLayoutIdSetup: NotificationLayoutIdSetup = defaultNotificationLayoutIds,
+    private val dialogViewHolder: NotificationDialogViewHolderContract = NotificationDialogViewHolder(
+        notificationLayoutIdSetup
+    )
+) :
     NotificationDialogBuilder {
 
     private var icon: Int? = null

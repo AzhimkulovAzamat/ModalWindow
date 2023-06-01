@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import net.breez.modalscreens.*
+import net.breez.modalscreens.DialogBuilderPreferences.defaultAlternativeLayoutIds
 import net.breez.modalscreens.model.DialogModel
 import net.breez.modalscreens.model.StringOrResource
 
@@ -13,7 +14,12 @@ import net.breez.modalscreens.model.StringOrResource
  * Created by azamat on 23/4/23.
  */
 
-class AlternativeDialogBuilderImpl(private val dialogViewHolder: AlternativeDialogViewHolderContract = AlternativeDialogViewHolder()) :
+class AlternativeDialogBuilderImpl(
+    alternativeLayoutIdSetup: AlternativeLayoutIdSetup = defaultAlternativeLayoutIds,
+    private val dialogViewHolder: AlternativeDialogViewHolderContract = AlternativeDialogViewHolder(
+        alternativeLayoutIdSetup
+    )
+) :
     AlternativeDialogBuilder {
 
     private var icon: Int? = null

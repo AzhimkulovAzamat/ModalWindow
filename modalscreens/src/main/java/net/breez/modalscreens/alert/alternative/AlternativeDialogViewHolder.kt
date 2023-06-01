@@ -7,22 +7,21 @@ import android.widget.ImageView
 import android.widget.TextView
 import net.breez.modalscreens.AlternativeDialogViewHolderContract
 import net.breez.modalscreens.DialogBuilderPreferences
-import net.breez.modalscreens.R
 
 /**
  * Created by azamat on 1/6/23.
  */
 
-open class AlternativeDialogViewHolder :
-    AlternativeDialogViewHolderContract{
+open class AlternativeDialogViewHolder(alternativeLayoutIdSetup: AlternativeLayoutIdSetup) :
+    AlternativeDialogViewHolderContract, AlternativeLayoutIdSetup by alternativeLayoutIdSetup {
 
     private lateinit var rootView: View
 
-    override var iconViewId = R.id.imageView_icon
-    override var titleViewId = R.id.textView_title
-    override var messageViewId = R.id.textView_message
-    override var positiveButtonId = R.id.positiveButton
-    override var negativeButtonId = R.id.negativeButton
+    private val iconView: ImageView by lazy { getViewById(iconViewId) }
+    private val titleView: TextView by lazy { getViewById(titleViewId) }
+    private val messageView: TextView by lazy { getViewById(messageViewId) }
+    private val positiveButton: TextView by lazy { getViewById(positiveButtonId) }
+    private val negativeButton: TextView by lazy { getViewById(negativeButtonId) }
 
     override fun initializeView(context: Context): AlternativeDialogViewHolderContract {
         rootView = LayoutInflater.from(context)
@@ -31,17 +30,17 @@ open class AlternativeDialogViewHolder :
     }
 
     override fun setupIcon(drawableId: Int): AlternativeDialogViewHolderContract {
-        rootView.findViewById<ImageView>(iconViewId)?.setImageResource(drawableId)
+        iconView.setImageResource(drawableId)
         return this
     }
 
     override fun setupTitle(value: String): AlternativeDialogViewHolderContract {
-        rootView.findViewById<TextView>(titleViewId)?.text = value
+        titleView.text = value
         return this
     }
 
     override fun setupMessage(value: String): AlternativeDialogViewHolderContract {
-        rootView.findViewById<TextView>(messageViewId)?.text = value
+        messageView.text = value
         return this
     }
 
@@ -49,8 +48,8 @@ open class AlternativeDialogViewHolder :
         value: String,
         onClicked: () -> Unit
     ): AlternativeDialogViewHolderContract {
-        rootView.findViewById<TextView>(positiveButtonId)?.text = value
-        rootView.findViewById<TextView>(positiveButtonId)?.setOnClickListener { onClicked() }
+        positiveButton.text = value
+        positiveButton.setOnClickListener { onClicked() }
         return this
     }
 
@@ -58,8 +57,8 @@ open class AlternativeDialogViewHolder :
         value: String,
         onClicked: () -> Unit
     ): AlternativeDialogViewHolderContract {
-        rootView.findViewById<TextView>(negativeButtonId)?.text = value
-        rootView.findViewById<TextView>(negativeButtonId)?.setOnClickListener { onClicked() }
+        negativeButton.text = value
+        negativeButton.setOnClickListener { onClicked() }
         return this
     }
 
@@ -70,5 +69,9 @@ open class AlternativeDialogViewHolder :
 
     override fun getDialogView(): View {
         return rootView
+    }
+
+    private fun <T : View> getViewById(resourceId: Int): T {
+        return rootView.findViewById(resourceId)
     }
 }

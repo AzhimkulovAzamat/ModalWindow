@@ -2,6 +2,7 @@ package net.breez.modalscreens
 
 import android.content.Context
 import android.view.View
+import android.widget.TextView
 import androidx.annotation.DrawableRes
 
 /**
@@ -9,10 +10,6 @@ import androidx.annotation.DrawableRes
  */
 
 interface BaseDialogViewHolderContract {
-    var iconViewId: Int
-    var titleViewId: Int
-    var messageViewId: Int
-
     fun initializeView(context: Context): BaseDialogViewHolderContract
     fun setupIcon(@DrawableRes drawableId: Int): BaseDialogViewHolderContract
     fun setupTitle(value: String): BaseDialogViewHolderContract
@@ -22,9 +19,6 @@ interface BaseDialogViewHolderContract {
 }
 
 interface AlternativeDialogViewHolderContract : BaseDialogViewHolderContract {
-
-    var positiveButtonId: Int
-    var negativeButtonId: Int
     fun setupPositiveButton(
         value: String,
         onClicked: () -> Unit

@@ -7,22 +7,20 @@ import android.widget.ImageView
 import android.widget.TextView
 import net.breez.modalscreens.DialogBuilderPreferences
 import net.breez.modalscreens.NotificationDialogViewHolderContract
-import net.breez.modalscreens.R
 
 /**
  * Created by azamat on 1/6/23.
  */
 
-open class NotificationDialogViewHolder :
-    NotificationDialogViewHolderContract {
+open class NotificationDialogViewHolder(notificationLayoutIdSetup: NotificationLayoutIdSetup) :
+    NotificationDialogViewHolderContract, NotificationLayoutIdSetup by notificationLayoutIdSetup {
 
     private lateinit var rootView: View
 
-    override var iconViewId = R.id.imageView_icon
-    override var titleViewId = R.id.textView_title
-    override var messageViewId = R.id.textView_message
-
-    override var submitButtonId: Int = R.id.positiveButton
+    private val iconView: ImageView by lazy { getViewById(iconViewId) }
+    private val titleView: TextView by lazy { getViewById(titleViewId) }
+    private val messageView: TextView by lazy { getViewById(messageViewId) }
+    private val submitButton: TextView by lazy { getViewById(submitButtonId) }
 
     override fun initializeView(context: Context): NotificationDialogViewHolderContract {
         rootView = LayoutInflater.from(context)
@@ -31,17 +29,17 @@ open class NotificationDialogViewHolder :
     }
 
     override fun setupIcon(drawableId: Int): NotificationDialogViewHolderContract {
-        rootView.findViewById<ImageView>(iconViewId)?.setImageResource(drawableId)
+        iconView.setImageResource(drawableId)
         return this
     }
 
     override fun setupTitle(value: String): NotificationDialogViewHolderContract {
-        rootView.findViewById<TextView>(titleViewId)?.text = value
+        titleView.text = value
         return this
     }
 
     override fun setupMessage(value: String): NotificationDialogViewHolderContract {
-        rootView.findViewById<TextView>(messageViewId)?.text = value
+        messageView.text = value
         return this
     }
 
@@ -49,8 +47,8 @@ open class NotificationDialogViewHolder :
         value: String,
         onClicked: () -> Unit
     ): NotificationDialogViewHolderContract {
-        rootView.findViewById<TextView>(submitButtonId)?.text = value
-        rootView.findViewById<TextView>(submitButtonId)?.setOnClickListener { onClicked() }
+        submitButton.text = value
+        submitButton.setOnClickListener { onClicked() }
         return this
     }
 
@@ -61,5 +59,9 @@ open class NotificationDialogViewHolder :
 
     override fun getDialogView(): View {
         return rootView
+    }
+
+    private fun <T : View> getViewById(resourceId: Int): T {
+        return rootView.findViewById(resourceId)
     }
 }
