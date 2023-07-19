@@ -3,10 +3,14 @@ package net.breez.modalscreens.alert.notification
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import net.breez.modalscreens.*
 import net.breez.modalscreens.DialogBuilderPreferences.defaultNotificationLayoutIds
+import net.breez.modalscreens.alert.alternative.AlternativeDialogBuilderImpl
 import net.breez.modalscreens.model.DialogModel
 import net.breez.modalscreens.model.StringOrResource
 
@@ -15,12 +19,9 @@ import net.breez.modalscreens.model.StringOrResource
  */
 
 class NotificationDialogBuilderImpl(
-    notificationLayoutIdSetup: NotificationLayoutIdSetup = defaultNotificationLayoutIds,
-    private val dialogViewHolder: NotificationDialogViewHolderContract = NotificationDialogViewHolder(
-        notificationLayoutIdSetup
-    )
+    notificationLayoutIdSetup: NotificationLayoutIdSetup = defaultNotificationLayoutIds
 ) :
-    NotificationDialogBuilder {
+    NotificationDialogBuilder, NotificationLayoutIdSetup by notificationLayoutIdSetup {
 
     private var icon: Int? = null
     private var title: StringOrResource? = null
@@ -108,22 +109,26 @@ class NotificationDialogBuilderImpl(
     }
 
     override fun create(context: Context): AlertDialog {
-        dialogViewHolder.initializeView(context)
+        val rootView = LayoutInflater.from(context)
+            .inflate(DialogBuilderPreferences.notificationLayoutId, null, false)
         val alertDialog: AlertDialog =
-            AlertDialog.Builder(context).setView(dialogViewHolder.getDialogView()).create()
+            AlertDialog.Builder(context).setView(rootView).create()
         dismiss = { alertDialog.dismiss() }
-        icon?.let { dialogViewHolder.setupIcon(it) }
-        message?.let { dialogViewHolder.setupMessage(it.getString(context)) }
-        dialogViewHolder.setupTitle(title!!.getString(context))
-        dialogViewHolder.setupSubmitButton(positiveButtonTitle!!.getString(context)) {
-            onPositiveClicked?.invoke()
-            dismiss()
+        icon?.let { rootView.findViewById<ImageView>(iconViewId).setImageResource(it) }
+        message?.let { rootView.findViewById<TextView>(messageViewId).text = it.getString(context) }
+        rootView.findViewById<TextView>(titleViewId).text = title!!.getString(context)
+        rootView.findViewById<TextView>(submitButtonId).apply {
+            text = positiveButtonTitle!!.getString(context)
+            setOnClickListener {
+                onPositiveClicked?.invoke()
+                dismiss()
+            }
         }
         alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialogViewHolder.setBackground(DialogBuilderPreferences.backgroundId)
+        rootView.setBackgroundResource(DialogBuilderPreferences.backgroundId)
 
         customViewSetters.forEach { item ->
-            val view = dialogViewHolder.getDialogView().findViewById<View>(item.key)
+            val view = rootView.findViewById<View>(item.key)
             item.value(view)
         }
 

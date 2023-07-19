@@ -22,8 +22,8 @@ interface AlternativeDialogBuilder : BaseDialogBuilderContract {
 
     override fun setBackground(resourceId: Int): AlternativeDialogBuilder
 
-    fun setMessage(@StringRes message: Int): AlternativeDialogBuilder
-    fun setMessage(message: String): AlternativeDialogBuilder
+    override fun setMessage(@StringRes message: Int): AlternativeDialogBuilder
+    override fun setMessage(message: String): AlternativeDialogBuilder
 
     fun setPositiveTitle(@StringRes title: Int): AlternativeDialogBuilder
     fun setPositiveTitle(title: String): AlternativeDialogBuilder

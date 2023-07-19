@@ -1,28 +1,30 @@
-package net.breez.modalscreens.alert.alternative
+package net.breez.modalscreens.alert.radio
 
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import net.breez.modalscreens.CustomViewSetter
 import net.breez.modalscreens.DialogBuilderPreferences
-import net.breez.modalscreens.DialogBuilderPreferences.defaultAlternativeLayoutIds
 import net.breez.modalscreens.OnClickedListener
+import net.breez.modalscreens.R
 import net.breez.modalscreens.model.DialogModel
 import net.breez.modalscreens.model.StringOrResource
 
 /**
- * Created by azamat on 23/4/23.
+ * Created by azamat on 2/6/23.
  */
 
-class AlternativeDialogBuilderImpl(
-    alternativeLayoutIdSetup: AlternativeLayoutIdSetup = defaultAlternativeLayoutIds,
-) :
-    AlternativeDialogBuilder, AlternativeLayoutIdSetup by alternativeLayoutIdSetup {
+class RadioDialogBuilderImpl(
+    alternativeLayoutIdSetup: RadioLayoutIdSetup = DialogBuilderPreferences.defaultRadioLayoutIds,
+) : RadioDialogBuilder, RadioLayoutIdSetup by alternativeLayoutIdSetup {
 
     private var icon: Int? = null
     private var title: StringOrResource? = null
@@ -41,79 +43,86 @@ class AlternativeDialogBuilderImpl(
     private var dialogModel: DialogModel? = null
     override var dismiss: () -> Unit = {}
 
-    override fun setIcon(drawableId: Int): AlternativeDialogBuilderImpl {
+    private var viewHolder: RadioViewHolder? = null
+    private var interaction:RecyclerAdapterInteraction? = null
+
+    interface RecyclerAdapterInteraction {
+        fun onBindViewHolder(holder: RadioViewHolder, position: Int)
+    }
+
+    override fun setIcon(drawableId: Int): RadioDialogBuilder {
         this.icon = drawableId
         return this
     }
 
-    override fun setTitle(title: Int): AlternativeDialogBuilderImpl {
+    override fun setTitle(title: Int): RadioDialogBuilder {
         this.title = StringOrResource(title)
         return this
     }
 
-    override fun setTitle(title: String): AlternativeDialogBuilderImpl {
+    override fun setTitle(title: String): RadioDialogBuilder {
         this.title = StringOrResource(title)
         return this
     }
 
-    override fun setMessage(message: Int): AlternativeDialogBuilderImpl {
+    override fun setMessage(message: Int): RadioDialogBuilder {
         this.message = StringOrResource(message)
         return this
     }
 
-    override fun setMessage(message: String): AlternativeDialogBuilderImpl {
+    override fun setMessage(message: String): RadioDialogBuilder {
         this.message = StringOrResource(message)
         return this
     }
 
-    override fun setPositiveTitle(title: Int): AlternativeDialogBuilderImpl {
+    override fun setPositiveTitle(title: Int): RadioDialogBuilder {
         this.positiveButtonTitle = StringOrResource(title)
         return this
     }
 
-    override fun setPositiveTitle(title: String): AlternativeDialogBuilderImpl {
+    override fun setPositiveTitle(title: String): RadioDialogBuilder {
         this.positiveButtonTitle = StringOrResource(title)
         return this
     }
 
-    override fun setPositiveClickedListener(onClicked: OnClickedListener): AlternativeDialogBuilderImpl {
+    override fun setPositiveClickedListener(onClicked: OnClickedListener): RadioDialogBuilder {
         this.onPositiveClicked = onClicked
         return this
     }
 
-    override fun setNegativeTitle(title: Int): AlternativeDialogBuilderImpl {
+    override fun setNegativeTitle(title: Int): RadioDialogBuilder {
         this.negativeButtonTitle = StringOrResource(title)
         return this
     }
 
-    override fun setNegativeTitle(title: String): AlternativeDialogBuilderImpl {
+    override fun setNegativeTitle(title: String): RadioDialogBuilder {
         this.negativeButtonTitle = StringOrResource(title)
         return this
     }
 
-    override fun setNegativeClickedListener(onClicked: OnClickedListener): AlternativeDialogBuilderImpl {
+    override fun setNegativeClickedListener(onClicked: OnClickedListener): RadioDialogBuilder {
         this.onNegativeClicked = onClicked
         return this
     }
 
-    override fun setCancelable(cancelable: Boolean): AlternativeDialogBuilderImpl {
+    override fun setCancelable(cancelable: Boolean): RadioDialogBuilder {
         isCancelable = cancelable
         return this
     }
 
-    override fun setBackground(resourceId: Int): AlternativeDialogBuilderImpl {
+    override fun setBackground(resourceId: Int): RadioDialogBuilder {
         throw UnsupportedOperationException()
     }
 
     override fun setView(
         viewId: Int,
         customViewSetter: CustomViewSetter
-    ): AlternativeDialogBuilderImpl {
+    ): RadioDialogBuilder {
         customViewSetters[viewId] = customViewSetter
         return this
     }
 
-    override fun fromOptions(dialogId: Int): AlternativeDialogBuilderImpl {
+    override fun fromOptions(dialogId: Int): RadioDialogBuilder {
         val model = DialogBuilderPreferences.options[dialogId]!!
 
         icon = model.image
@@ -130,7 +139,7 @@ class AlternativeDialogBuilderImpl(
 
     override fun create(context: Context): AlertDialog {
         val rootView = LayoutInflater.from(context)
-            .inflate(DialogBuilderPreferences.alternativeLayoutId, null, false)
+            .inflate(DialogBuilderPreferences.radioLayoutId, null, false)
         val alertDialog: AlertDialog =
             AlertDialog.Builder(context).setView(rootView).create()
         dismiss = { alertDialog.dismiss() }
@@ -157,6 +166,7 @@ class AlternativeDialogBuilderImpl(
 
         alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         rootView.setBackgroundResource(DialogBuilderPreferences.backgroundId)
+        setupRecyclerView(rootView.findViewById(R.id.recyclerView_radioAlert), listOf<String>())
 
         customViewSetters.forEach { item ->
             val view = rootView.findViewById<View>(item.key)
@@ -165,5 +175,25 @@ class AlternativeDialogBuilderImpl(
 
         alertDialog.setCancelable(isCancelable)
         return alertDialog
+    }
+
+    private fun <T> setupRecyclerView(
+        recycler: RecyclerView,
+        items: List<T>
+    ) {
+        recycler.layoutManager =
+            LinearLayoutManager(recycler.context, LinearLayoutManager.VERTICAL, false)
+        recycler.adapter = object : RecyclerView.Adapter<RadioViewHolder>() {
+
+            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RadioViewHolder {
+                return viewHolder!!
+            }
+
+            override fun getItemCount(): Int = items.size
+
+            override fun onBindViewHolder(holder: RadioViewHolder, position: Int) {
+                interaction?.onBindViewHolder(holder, position)
+            }
+        }
     }
 }

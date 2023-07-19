@@ -20,8 +20,8 @@ interface NotificationDialogBuilder : BaseDialogBuilderContract {
     override fun setBackground(resourceId: Int): NotificationDialogBuilder
     override fun setCancelable(cancelable: Boolean): NotificationDialogBuilder
 
-    fun setMessage(@StringRes message: Int): NotificationDialogBuilder
-    fun setMessage(message: String): NotificationDialogBuilder
+    override fun setMessage(@StringRes message: Int): NotificationDialogBuilder
+    override fun setMessage(message: String): NotificationDialogBuilder
 
     fun setConfirmButtonTitle(@StringRes title: Int): NotificationDialogBuilder
     fun setConfirmButtonTitle(title: String): NotificationDialogBuilder
