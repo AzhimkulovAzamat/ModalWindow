@@ -11,11 +11,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import net.breez.modalscreens.CustomViewSetter
-import net.breez.modalscreens.DialogBuilderPreferences
-import net.breez.modalscreens.OnClickedListener
-import net.breez.modalscreens.R
-import net.breez.modalscreens.model.DialogModel
+import net.breez.modalscreens.*
+import net.breez.modalscreens.AlertDialogBuilderConfig.Companion.defaultRadioLayoutIds
 import net.breez.modalscreens.model.StringOrResource
 
 /**
@@ -23,7 +20,7 @@ import net.breez.modalscreens.model.StringOrResource
  */
 
 class RadioDialogBuilderImpl(
-    alternativeLayoutIdSetup: RadioLayoutIdSetup = DialogBuilderPreferences.defaultRadioLayoutIds,
+    alternativeLayoutIdSetup: RadioLayoutIdSetup = defaultRadioLayoutIds,
 ) : RadioDialogBuilder, RadioLayoutIdSetup by alternativeLayoutIdSetup {
 
     private var icon: Int? = null
@@ -40,7 +37,6 @@ class RadioDialogBuilderImpl(
 
     private val customViewSetters = mutableMapOf<Int, CustomViewSetter>()
 
-    private var dialogModel: DialogModel? = null
     override var dismiss: () -> Unit = {}
 
     private var viewHolder: RadioViewHolder? = null
@@ -123,7 +119,7 @@ class RadioDialogBuilderImpl(
     }
 
     override fun fromOptions(dialogId: Int): RadioDialogBuilder {
-        val model = DialogBuilderPreferences.options[dialogId]!!
+        val model = AlertDialogBuilderConfig.options.getByKey(dialogId)
 
         icon = model.image
         title = model.title
@@ -132,14 +128,12 @@ class RadioDialogBuilderImpl(
         negativeButtonTitle = model.negativeTitle
         isCancelable = model.isCancelable
 
-        dialogModel = model
-
         return this
     }
 
     override fun create(context: Context): AlertDialog {
         val rootView = LayoutInflater.from(context)
-            .inflate(DialogBuilderPreferences.radioLayoutId, null, false)
+            .inflate(AlertDialogBuilderConfig.radioLayoutId, null, false)
         val alertDialog: AlertDialog =
             AlertDialog.Builder(context).setView(rootView).create()
         dismiss = { alertDialog.dismiss() }
@@ -165,7 +159,7 @@ class RadioDialogBuilderImpl(
         }
 
         alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        rootView.setBackgroundResource(DialogBuilderPreferences.backgroundId)
+        rootView.setBackgroundResource(AlertDialogBuilderConfig.backgroundId)
         setupRecyclerView(rootView.findViewById(R.id.recyclerView_radioAlert), listOf<String>())
 
         customViewSetters.forEach { item ->

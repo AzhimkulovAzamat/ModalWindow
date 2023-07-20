@@ -8,11 +8,10 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
+import net.breez.modalscreens.AlertDialogBuilderConfig
+import net.breez.modalscreens.AlertDialogBuilderConfig.Companion.defaultAlternativeLayoutIds
 import net.breez.modalscreens.CustomViewSetter
-import net.breez.modalscreens.DialogBuilderPreferences
-import net.breez.modalscreens.DialogBuilderPreferences.defaultAlternativeLayoutIds
 import net.breez.modalscreens.OnClickedListener
-import net.breez.modalscreens.model.DialogModel
 import net.breez.modalscreens.model.StringOrResource
 
 /**
@@ -38,7 +37,6 @@ class AlternativeDialogBuilderImpl(
 
     private val customViewSetters = mutableMapOf<Int, CustomViewSetter>()
 
-    private var dialogModel: DialogModel? = null
     override var dismiss: () -> Unit = {}
 
     override fun setIcon(drawableId: Int): AlternativeDialogBuilderImpl {
@@ -114,7 +112,7 @@ class AlternativeDialogBuilderImpl(
     }
 
     override fun fromOptions(dialogId: Int): AlternativeDialogBuilderImpl {
-        val model = DialogBuilderPreferences.options[dialogId]!!
+        val model = AlertDialogBuilderConfig.options.getByKey(dialogId)
 
         icon = model.image
         title = model.title
@@ -123,14 +121,12 @@ class AlternativeDialogBuilderImpl(
         negativeButtonTitle = model.negativeTitle
         isCancelable = model.isCancelable
 
-        dialogModel = model
-
         return this
     }
 
     override fun create(context: Context): AlertDialog {
         val rootView = LayoutInflater.from(context)
-            .inflate(DialogBuilderPreferences.alternativeLayoutId, null, false)
+            .inflate(AlertDialogBuilderConfig.alternativeLayoutId, null, false)
         val alertDialog: AlertDialog =
             AlertDialog.Builder(context).setView(rootView).create()
         dismiss = { alertDialog.dismiss() }
@@ -156,7 +152,7 @@ class AlternativeDialogBuilderImpl(
         }
 
         alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        rootView.setBackgroundResource(DialogBuilderPreferences.backgroundId)
+        rootView.setBackgroundResource(AlertDialogBuilderConfig.backgroundId)
 
         customViewSetters.forEach { item ->
             val view = rootView.findViewById<View>(item.key)
