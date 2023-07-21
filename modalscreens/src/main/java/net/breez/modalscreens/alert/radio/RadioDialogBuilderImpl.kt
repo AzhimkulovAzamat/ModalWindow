@@ -4,15 +4,16 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import net.breez.modalscreens.*
+import net.breez.modalscreens.AlertDialogBuilderConfig
 import net.breez.modalscreens.AlertDialogBuilderConfig.Companion.defaultRadioLayoutIds
+import net.breez.modalscreens.OnClickedListener
+import net.breez.modalscreens.R
 import net.breez.modalscreens.model.StringOrResource
 
 /**
@@ -35,15 +36,14 @@ class RadioDialogBuilderImpl(
 
     private var isCancelable: Boolean = true
 
-    private val customViewSetters = mutableMapOf<Int, CustomViewSetter>()
-
     override var dismiss: () -> Unit = {}
 
-    private var viewHolder: RadioViewHolder? = null
-    private var interaction:RecyclerAdapterInteraction? = null
+    private var interaction: RecyclerAdapterInteraction? = null
 
     interface RecyclerAdapterInteraction {
+        fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RadioViewHolder
         fun onBindViewHolder(holder: RadioViewHolder, position: Int)
+        fun getItemSize(): Int
     }
 
     override fun setIcon(drawableId: Int): RadioDialogBuilder {
@@ -110,11 +110,8 @@ class RadioDialogBuilderImpl(
         throw UnsupportedOperationException()
     }
 
-    override fun setView(
-        viewId: Int,
-        customViewSetter: CustomViewSetter
-    ): RadioDialogBuilder {
-        customViewSetters[viewId] = customViewSetter
+    override fun setInteraction(value: RecyclerAdapterInteraction): RadioDialogBuilder {
+        interaction = value
         return this
     }
 
@@ -160,33 +157,27 @@ class RadioDialogBuilderImpl(
 
         alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         rootView.setBackgroundResource(AlertDialogBuilderConfig.backgroundId)
-        setupRecyclerView(rootView.findViewById(R.id.recyclerView_radioAlert), listOf<String>())
-
-        customViewSetters.forEach { item ->
-            val view = rootView.findViewById<View>(item.key)
-            item.value(view)
-        }
+        setupRecyclerView(rootView.findViewById(recyclerViewId))
 
         alertDialog.setCancelable(isCancelable)
         return alertDialog
     }
 
-    private fun <T> setupRecyclerView(
-        recycler: RecyclerView,
-        items: List<T>
+    private fun setupRecyclerView(
+        recycler: RecyclerView
     ) {
         recycler.layoutManager =
             LinearLayoutManager(recycler.context, LinearLayoutManager.VERTICAL, false)
         recycler.adapter = object : RecyclerView.Adapter<RadioViewHolder>() {
 
             override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RadioViewHolder {
-                return viewHolder!!
+                return interaction!!.onCreateViewHolder(parent, viewType)
             }
 
-            override fun getItemCount(): Int = items.size
+            override fun getItemCount(): Int = interaction?.getItemSize() ?: 0
 
             override fun onBindViewHolder(holder: RadioViewHolder, position: Int) {
-                interaction?.onBindViewHolder(holder, position)
+                interaction!!.onBindViewHolder(holder, position)
             }
         }
     }

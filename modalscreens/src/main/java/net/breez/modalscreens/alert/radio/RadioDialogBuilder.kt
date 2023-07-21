@@ -35,10 +35,6 @@ interface RadioDialogBuilder: BaseDialogBuilderContract {
 
     fun setNegativeClickedListener(onClicked: OnClickedListener): RadioDialogBuilder
 
-    fun setView(
-        @IdRes viewId: Int,
-        customViewSetter: CustomViewSetter
-    ): RadioDialogBuilder
-
     fun fromOptions(@StringRes dialogId: Int): RadioDialogBuilder
+    fun setInteraction(value: RadioDialogBuilderImpl.RecyclerAdapterInteraction): RadioDialogBuilder
 }

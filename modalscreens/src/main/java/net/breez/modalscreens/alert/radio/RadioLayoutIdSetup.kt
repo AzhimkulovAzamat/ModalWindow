@@ -22,4 +22,7 @@ interface RadioLayoutIdSetup {
     var negativeButtonId: Int
         get() = R.id.negativeButton
         set(value) {}
+    var recyclerViewId: Int
+        get() = R.id.recyclerView_radioAlert
+        set(value) {}
 }
