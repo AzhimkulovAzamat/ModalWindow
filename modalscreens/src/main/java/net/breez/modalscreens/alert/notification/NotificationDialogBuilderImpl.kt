@@ -28,7 +28,7 @@ class NotificationDialogBuilderImpl(
     private var onPositiveClicked: OnClickedListener? = null
     private var positiveButtonTitle: StringOrResource? = null
 
-    private var isCancelable: Boolean = false
+    private var isCancelable: Boolean = true
 
     private val customViewSetters = mutableMapOf<Int, CustomViewSetter>()
 

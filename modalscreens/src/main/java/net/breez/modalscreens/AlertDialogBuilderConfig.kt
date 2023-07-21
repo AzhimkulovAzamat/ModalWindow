@@ -52,7 +52,7 @@ class AlertDialogBuilderConfig {
         }
 
         fun build() {
-            this.options = options
+            this.options?.let { Companion.options = it }
             this.notificationLayoutId?.let { Companion.notificationLayoutId = it }
             this.alternativeLayoutId?.let { Companion.alternativeLayoutId = it }
             this.defaultNotificationLayoutIds?.let { Companion.defaultNotificationLayoutIds = it }

@@ -33,7 +33,7 @@ class AlternativeDialogBuilderImpl(
     private var onNegativeClicked: OnClickedListener? = null
     private var negativeButtonTitle: StringOrResource? = null
 
-    private var isCancelable: Boolean = false
+    private var isCancelable: Boolean = true
 
     private val customViewSetters = mutableMapOf<Int, CustomViewSetter>()
 
