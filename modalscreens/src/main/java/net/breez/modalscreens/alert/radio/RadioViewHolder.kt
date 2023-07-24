@@ -1,16 +1,16 @@
 package net.breez.modalscreens.alert.radio
 
 import android.view.View
-import android.widget.RadioButton
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import androidx.viewbinding.ViewBinding
+import androidx.recyclerview.widget.RecyclerView
 
 /**
- * Created by azamat on 3/6/23.
+ * Created by azamat on 24/7/23.
  */
 
-abstract class RadioViewHolder(view: View) : ViewHolder(view) {
+abstract class RadioViewHolder(view: View): RecyclerView.ViewHolder(view) {
 
-    abstract fun isSelected(selected: Boolean)
-    abstract fun getRadioView(): RadioButton
+
+    abstract fun select()
+
+    abstract fun deselect()
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -13,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import net.breez.modalscreens.AlertDialogBuilderConfig
 import net.breez.modalscreens.AlertDialogBuilderConfig.Companion.defaultRadioLayoutIds
 import net.breez.modalscreens.OnClickedListener
-import net.breez.modalscreens.R
+import net.breez.modalscreens.databinding.BreezRowRadioLayoutBinding
 import net.breez.modalscreens.model.StringOrResource
 
 /**
@@ -40,10 +41,16 @@ class RadioDialogBuilderImpl(
 
     private var interaction: RecyclerAdapterInteraction? = null
 
+    private var selectedPosition: Int = -1
+
     interface RecyclerAdapterInteraction {
-        fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RadioViewHolder
+        fun onCreateViewHolder(parent: ViewGroup): RadioViewHolder {
+            val binding = BreezRowRadioLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            return BreezRadioViewHolder(binding)
+        }
         fun onBindViewHolder(holder: RadioViewHolder, position: Int)
         fun getItemSize(): Int
+        fun isSelected(position: Int): Boolean
     }
 
     override fun setIcon(drawableId: Int): RadioDialogBuilder {
@@ -139,19 +146,23 @@ class RadioDialogBuilderImpl(
             rootView.findViewById<TextView>(messageViewId).text = it.getString(context)
         }
         rootView.findViewById<TextView>(titleViewId).text = title!!.getString(context)
-        rootView.findViewById<TextView>(positiveButtonId).apply {
-            text = positiveButtonTitle!!.getString(context)
-            setOnClickListener {
-                onPositiveClicked?.invoke()
-                dismiss()
+        positiveButtonTitle?.let {
+            rootView.findViewById<TextView>(positiveButtonId).apply {
+                text = it.getString(context)
+                setOnClickListener {
+                    onPositiveClicked?.invoke()
+                    dismiss()
+                }
             }
         }
 
-        rootView.findViewById<TextView>(negativeButtonId).apply {
-            text = negativeButtonTitle!!.getString(context)
-            setOnClickListener {
-                onNegativeClicked?.invoke()
-                dismiss()
+        negativeButtonTitle?.let {
+            rootView.findViewById<TextView>(negativeButtonId).apply {
+                text = it.getString(context)
+                setOnClickListener {
+                    onNegativeClicked?.invoke()
+                    dismiss()
+                }
             }
         }
 
@@ -170,13 +181,21 @@ class RadioDialogBuilderImpl(
             LinearLayoutManager(recycler.context, LinearLayoutManager.VERTICAL, false)
         recycler.adapter = object : RecyclerView.Adapter<RadioViewHolder>() {
 
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RadioViewHolder {
-                return interaction!!.onCreateViewHolder(parent, viewType)
+            override fun onCreateViewHolder(
+                parent: ViewGroup,
+                viewType: Int
+            ): RadioViewHolder {
+                return interaction!!.onCreateViewHolder(parent)
             }
 
             override fun getItemCount(): Int = interaction?.getItemSize() ?: 0
 
             override fun onBindViewHolder(holder: RadioViewHolder, position: Int) {
+                if (interaction!!.isSelected(position)) {
+                    holder.select()
+                } else {
+                    holder.deselect()
+                }
                 interaction!!.onBindViewHolder(holder, position)
             }
         }
