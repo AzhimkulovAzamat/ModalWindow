@@ -1,12 +1,11 @@
 package net.breez.modalscreens
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.RadioButton
 import net.breez.modalscreens.alert.AlertDialogBuilderFactoryImpl
 import net.breez.modalscreens.alert.radio.RadioDialogBuilderImpl
 import net.breez.modalscreens.alert.radio.RadioViewHolder
+import net.breez.modalscreens.alert.radio.BreezRadioViewHolder
 import net.breez.modalscreens.databinding.BreezRowRadioLayoutBinding
 
 /**
@@ -21,7 +20,7 @@ class App {
             .setInteraction(object : RadioDialogBuilderImpl.RecyclerAdapterInteraction {
                 override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RadioViewHolder {
                     val binding = BreezRowRadioLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                    return SimpleRadioViewHolder(binding)
+                    return BreezRadioViewHolder(binding)
                 }
 
                 override fun onBindViewHolder(holder: RadioViewHolder, position: Int) {
@@ -33,15 +32,5 @@ class App {
                 }
             })
 
-    }
-}
-
-class SimpleRadioViewHolder(private val binding: BreezRowRadioLayoutBinding) : RadioViewHolder(binding.root) {
-    override fun isSelected(selected: Boolean) {
-        binding.radioButton.isChecked = selected
-    }
-
-    override fun getRadioView(): RadioButton {
-        return binding.radioButton
     }
 }
