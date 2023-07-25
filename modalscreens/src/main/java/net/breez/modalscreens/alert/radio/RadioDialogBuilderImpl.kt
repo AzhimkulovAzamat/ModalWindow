@@ -41,16 +41,21 @@ class RadioDialogBuilderImpl(
 
     private var interaction: RecyclerAdapterInteraction? = null
 
-    private var selectedPosition: Int = -1
+    private var selectedPosition: Int? = null
 
     interface RecyclerAdapterInteraction {
         fun onCreateViewHolder(parent: ViewGroup): RadioViewHolder {
-            val binding = BreezRowRadioLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            val binding = BreezRowRadioLayoutBinding.inflate(
+                LayoutInflater.from(parent.context),
+                parent,
+                false
+            )
             return BreezRadioViewHolder(binding)
         }
-        fun onBindViewHolder(holder: RadioViewHolder, position: Int)
+
         fun getItemSize(): Int
-        fun isSelected(position: Int): Boolean
+        fun getModel(position: Int): Any
+        fun onSelected(position: Int)
     }
 
     override fun setIcon(drawableId: Int): RadioDialogBuilder {
@@ -148,6 +153,7 @@ class RadioDialogBuilderImpl(
         rootView.findViewById<TextView>(titleViewId).text = title!!.getString(context)
         positiveButtonTitle?.let {
             rootView.findViewById<TextView>(positiveButtonId).apply {
+                visibility = View.VISIBLE
                 text = it.getString(context)
                 setOnClickListener {
                     onPositiveClicked?.invoke()
@@ -158,6 +164,7 @@ class RadioDialogBuilderImpl(
 
         negativeButtonTitle?.let {
             rootView.findViewById<TextView>(negativeButtonId).apply {
+                visibility = View.VISIBLE
                 text = it.getString(context)
                 setOnClickListener {
                     onNegativeClicked?.invoke()
@@ -191,12 +198,17 @@ class RadioDialogBuilderImpl(
             override fun getItemCount(): Int = interaction?.getItemSize() ?: 0
 
             override fun onBindViewHolder(holder: RadioViewHolder, position: Int) {
-                if (interaction!!.isSelected(position)) {
-                    holder.select()
-                } else {
-                    holder.deselect()
+                holder.itemView.setOnClickListener {
+                    notifyItemChanged(selectedPosition ?: 0)
+                    selectedPosition = holder.adapterPosition
+                    notifyItemChanged(selectedPosition ?: 0)
+                    interaction?.onSelected(position)
+                    if (positiveButtonTitle == null) {
+                        dismiss()
+                    }
                 }
-                interaction!!.onBindViewHolder(holder, position)
+                holder.isSelected(selectedPosition == position)
+                interaction?.getModel(position)?.let { holder.bind(it) }
             }
         }
     }
