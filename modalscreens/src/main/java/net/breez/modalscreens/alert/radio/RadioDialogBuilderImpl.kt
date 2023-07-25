@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -13,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import net.breez.modalscreens.AlertDialogBuilderConfig
 import net.breez.modalscreens.AlertDialogBuilderConfig.Companion.defaultRadioLayoutIds
 import net.breez.modalscreens.OnClickedListener
-import net.breez.modalscreens.RadioDialogRVAdapter
+import net.breez.modalscreens.databinding.BreezRowRadioLayoutBinding
 import net.breez.modalscreens.model.StringOrResource
 
 /**
@@ -38,7 +39,19 @@ class RadioDialogBuilderImpl(
 
     override var dismiss: () -> Unit = {}
 
-    private var adapter:RadioDialogRVAdapter? = null
+    private var interaction: RecyclerAdapterInteraction? = null
+
+    private var selectedPosition: Int = -1
+
+    interface RecyclerAdapterInteraction {
+        fun onCreateViewHolder(parent: ViewGroup): RadioViewHolder {
+            val binding = BreezRowRadioLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            return BreezRadioViewHolder(binding)
+        }
+        fun onBindViewHolder(holder: RadioViewHolder, position: Int)
+        fun getItemSize(): Int
+        fun isSelected(position: Int): Boolean
+    }
 
     override fun setIcon(drawableId: Int): RadioDialogBuilder {
         this.icon = drawableId
@@ -65,32 +78,32 @@ class RadioDialogBuilderImpl(
         return this
     }
 
-    override fun setSubmitTitle(title: Int): RadioDialogBuilder {
+    override fun setPositiveTitle(title: Int): RadioDialogBuilder {
         this.positiveButtonTitle = StringOrResource(title)
         return this
     }
 
-    override fun setSubmitTitle(title: String): RadioDialogBuilder {
+    override fun setPositiveTitle(title: String): RadioDialogBuilder {
         this.positiveButtonTitle = StringOrResource(title)
         return this
     }
 
-    override fun setSubmitClickedListener(onClicked: OnClickedListener): RadioDialogBuilder {
+    override fun setPositiveClickedListener(onClicked: OnClickedListener): RadioDialogBuilder {
         this.onPositiveClicked = onClicked
         return this
     }
 
-    override fun setCancelTitle(title: Int): RadioDialogBuilder {
+    override fun setNegativeTitle(title: Int): RadioDialogBuilder {
         this.negativeButtonTitle = StringOrResource(title)
         return this
     }
 
-    override fun setCancelTitle(title: String): RadioDialogBuilder {
+    override fun setNegativeTitle(title: String): RadioDialogBuilder {
         this.negativeButtonTitle = StringOrResource(title)
         return this
     }
 
-    override fun setCancelClickedListener(onClicked: OnClickedListener): RadioDialogBuilder {
+    override fun setNegativeClickedListener(onClicked: OnClickedListener): RadioDialogBuilder {
         this.onNegativeClicked = onClicked
         return this
     }
@@ -104,8 +117,8 @@ class RadioDialogBuilderImpl(
         throw UnsupportedOperationException()
     }
 
-    override fun setAdapter(adapter: RadioDialogRVAdapter): RadioDialogBuilder {
-        this.adapter = adapter
+    override fun setInteraction(value: RecyclerAdapterInteraction): RadioDialogBuilder {
+        interaction = value
         return this
     }
 
@@ -135,7 +148,6 @@ class RadioDialogBuilderImpl(
         rootView.findViewById<TextView>(titleViewId).text = title!!.getString(context)
         positiveButtonTitle?.let {
             rootView.findViewById<TextView>(positiveButtonId).apply {
-                visibility = View.VISIBLE
                 text = it.getString(context)
                 setOnClickListener {
                     onPositiveClicked?.invoke()
@@ -146,7 +158,6 @@ class RadioDialogBuilderImpl(
 
         negativeButtonTitle?.let {
             rootView.findViewById<TextView>(negativeButtonId).apply {
-                visibility = View.VISIBLE
                 text = it.getString(context)
                 setOnClickListener {
                     onNegativeClicked?.invoke()
@@ -168,6 +179,25 @@ class RadioDialogBuilderImpl(
     ) {
         recycler.layoutManager =
             LinearLayoutManager(recycler.context, LinearLayoutManager.VERTICAL, false)
-        recycler.adapter = adapter
+        recycler.adapter = object : RecyclerView.Adapter<RadioViewHolder>() {
+
+            override fun onCreateViewHolder(
+                parent: ViewGroup,
+                viewType: Int
+            ): RadioViewHolder {
+                return interaction!!.onCreateViewHolder(parent)
+            }
+
+            override fun getItemCount(): Int = interaction?.getItemSize() ?: 0
+
+            override fun onBindViewHolder(holder: RadioViewHolder, position: Int) {
+                if (interaction!!.isSelected(position)) {
+                    holder.select()
+                } else {
+                    holder.deselect()
+                }
+                interaction!!.onBindViewHolder(holder, position)
+            }
+        }
     }
 }
