@@ -6,14 +6,14 @@ import net.breez.modalscreens.databinding.BreezRowRadioLayoutBinding
  * Created by azamat on 24/7/23.
  */
 
-class BreezRadioViewHolder(val binding: BreezRowRadioLayoutBinding) :
+class BreezRadioViewHolder(private val binding: BreezRowRadioLayoutBinding) :
     RadioViewHolder(binding.root) {
 
-    override fun select() {
-        binding.radioButton.isChecked = true
+    override fun bind(data: Any) {
+        binding.textViewTitle.text = data as? String
     }
 
-    override fun deselect() {
-        binding.radioButton.isChecked = false
+    override fun isSelected(selected: Boolean) {
+        binding.radioButton.isChecked = selected
     }
 }
