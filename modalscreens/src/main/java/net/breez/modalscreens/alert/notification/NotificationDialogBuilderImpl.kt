@@ -9,8 +9,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import net.breez.modalscreens.*
-import net.breez.modalscreens.AlertDialogBuilderConfig.Companion.defaultNotificationLayoutIds
-import net.breez.modalscreens.model.StringOrResource
+import net.breez.modalscreens.alert.AlertDialogBuilderConfig
+import net.breez.modalscreens.alert.AlertDialogBuilderConfig.Companion.defaultNotificationLayoutIds
+import net.breez.modalscreens.StringOrResource
 
 /**
  * Created by azamat on 22/4/23.

@@ -8,11 +8,11 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
-import net.breez.modalscreens.AlertDialogBuilderConfig
-import net.breez.modalscreens.AlertDialogBuilderConfig.Companion.defaultAlternativeLayoutIds
 import net.breez.modalscreens.CustomViewSetter
 import net.breez.modalscreens.OnClickedListener
-import net.breez.modalscreens.model.StringOrResource
+import net.breez.modalscreens.StringOrResource
+import net.breez.modalscreens.alert.AlertDialogBuilderConfig
+import net.breez.modalscreens.alert.AlertDialogBuilderConfig.Companion.defaultAlternativeLayoutIds
 
 /**
  * Created by azamat on 23/4/23.

@@ -25,15 +25,15 @@ interface RadioDialogBuilder: BaseDialogBuilderContract {
     override fun setMessage(@StringRes message: Int): RadioDialogBuilder
     override fun setMessage(message: String): RadioDialogBuilder
 
-    fun setPositiveTitle(@StringRes title: Int): RadioDialogBuilder
-    fun setPositiveTitle(title: String): RadioDialogBuilder
+    fun setSubmitTitle(@StringRes title: Int): RadioDialogBuilder
+    fun setSubmitTitle(title: String): RadioDialogBuilder
 
-    fun setPositiveClickedListener(onClicked: OnClickedListener): RadioDialogBuilder
+    fun setSubmitClickedListener(onClicked: OnClickedListener): RadioDialogBuilder
 
-    fun setNegativeTitle(@StringRes title: Int): RadioDialogBuilder
-    fun setNegativeTitle(title: String): RadioDialogBuilder
+    fun setCancelTitle(@StringRes title: Int): RadioDialogBuilder
+    fun setCancelTitle(title: String): RadioDialogBuilder
 
-    fun setNegativeClickedListener(onClicked: OnClickedListener): RadioDialogBuilder
+    fun setCancelClickedListener(onClicked: OnClickedListener): RadioDialogBuilder
 
     fun fromOptions(@StringRes dialogId: Int): RadioDialogBuilder
     fun setInteraction(value: RadioDialogBuilderImpl.RecyclerAdapterInteraction): RadioDialogBuilder

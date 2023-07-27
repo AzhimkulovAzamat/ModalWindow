@@ -1,4 +1,4 @@
-package net.breez.modalscreens.model
+package net.breez.modalscreens
 
 import android.content.Context
 import androidx.annotation.StringRes

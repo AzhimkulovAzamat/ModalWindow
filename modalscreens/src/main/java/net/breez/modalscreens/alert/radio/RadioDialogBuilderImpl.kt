@@ -11,11 +11,11 @@ import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import net.breez.modalscreens.AlertDialogBuilderConfig
-import net.breez.modalscreens.AlertDialogBuilderConfig.Companion.defaultRadioLayoutIds
+import net.breez.modalscreens.alert.AlertDialogBuilderConfig
+import net.breez.modalscreens.alert.AlertDialogBuilderConfig.Companion.defaultRadioLayoutIds
 import net.breez.modalscreens.OnClickedListener
 import net.breez.modalscreens.databinding.BreezRowRadioLayoutBinding
-import net.breez.modalscreens.model.StringOrResource
+import net.breez.modalscreens.StringOrResource
 
 /**
  * Created by azamat on 2/6/23.
@@ -29,11 +29,11 @@ class RadioDialogBuilderImpl(
     private var title: StringOrResource? = null
     private var message: StringOrResource? = null
 
-    private var onPositiveClicked: OnClickedListener? = null
-    private var positiveButtonTitle: StringOrResource? = null
+    private var onSubmitClicked: OnClickedListener? = null
+    private var submitButtonTitle: StringOrResource? = null
 
-    private var onNegativeClicked: OnClickedListener? = null
-    private var negativeButtonTitle: StringOrResource? = null
+    private var onCancelClicked: OnClickedListener? = null
+    private var cancelButtonTitle: StringOrResource? = null
 
     private var isCancelable: Boolean = true
 
@@ -83,33 +83,33 @@ class RadioDialogBuilderImpl(
         return this
     }
 
-    override fun setPositiveTitle(title: Int): RadioDialogBuilder {
-        this.positiveButtonTitle = StringOrResource(title)
+    override fun setSubmitTitle(title: Int): RadioDialogBuilder {
+        this.submitButtonTitle = StringOrResource(title)
         return this
     }
 
-    override fun setPositiveTitle(title: String): RadioDialogBuilder {
-        this.positiveButtonTitle = StringOrResource(title)
+    override fun setSubmitTitle(title: String): RadioDialogBuilder {
+        this.submitButtonTitle = StringOrResource(title)
         return this
     }
 
-    override fun setPositiveClickedListener(onClicked: OnClickedListener): RadioDialogBuilder {
-        this.onPositiveClicked = onClicked
+    override fun setSubmitClickedListener(onClicked: OnClickedListener): RadioDialogBuilder {
+        this.onSubmitClicked = onClicked
         return this
     }
 
-    override fun setNegativeTitle(title: Int): RadioDialogBuilder {
-        this.negativeButtonTitle = StringOrResource(title)
+    override fun setCancelTitle(title: Int): RadioDialogBuilder {
+        this.cancelButtonTitle = StringOrResource(title)
         return this
     }
 
-    override fun setNegativeTitle(title: String): RadioDialogBuilder {
-        this.negativeButtonTitle = StringOrResource(title)
+    override fun setCancelTitle(title: String): RadioDialogBuilder {
+        this.cancelButtonTitle = StringOrResource(title)
         return this
     }
 
-    override fun setNegativeClickedListener(onClicked: OnClickedListener): RadioDialogBuilder {
-        this.onNegativeClicked = onClicked
+    override fun setCancelClickedListener(onClicked: OnClickedListener): RadioDialogBuilder {
+        this.onCancelClicked = onClicked
         return this
     }
 
@@ -133,8 +133,8 @@ class RadioDialogBuilderImpl(
         icon = model.image
         title = model.title
         message = model.message
-        positiveButtonTitle = model.positiveTitle
-        negativeButtonTitle = model.negativeTitle
+        submitButtonTitle = model.positiveTitle
+        cancelButtonTitle = model.negativeTitle
         isCancelable = model.isCancelable
 
         return this
@@ -151,23 +151,23 @@ class RadioDialogBuilderImpl(
             rootView.findViewById<TextView>(messageViewId).text = it.getString(context)
         }
         rootView.findViewById<TextView>(titleViewId).text = title!!.getString(context)
-        positiveButtonTitle?.let {
+        submitButtonTitle?.let {
             rootView.findViewById<TextView>(positiveButtonId).apply {
                 visibility = View.VISIBLE
                 text = it.getString(context)
                 setOnClickListener {
-                    onPositiveClicked?.invoke()
+                    onSubmitClicked?.invoke()
                     dismiss()
                 }
             }
         }
 
-        negativeButtonTitle?.let {
+        cancelButtonTitle?.let {
             rootView.findViewById<TextView>(negativeButtonId).apply {
                 visibility = View.VISIBLE
                 text = it.getString(context)
                 setOnClickListener {
-                    onNegativeClicked?.invoke()
+                    onCancelClicked?.invoke()
                     dismiss()
                 }
             }
@@ -203,7 +203,7 @@ class RadioDialogBuilderImpl(
                     selectedPosition = holder.adapterPosition
                     notifyItemChanged(selectedPosition ?: 0)
                     interaction?.onSelected(position)
-                    if (positiveButtonTitle == null) {
+                    if (submitButtonTitle == null) {
                         dismiss()
                     }
                 }

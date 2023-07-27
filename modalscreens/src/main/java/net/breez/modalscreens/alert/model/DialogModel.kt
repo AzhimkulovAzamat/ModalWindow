@@ -1,6 +1,7 @@
-package net.breez.modalscreens.model
+package net.breez.modalscreens.alert.model
 
 import androidx.annotation.DrawableRes
+import net.breez.modalscreens.StringOrResource
 
 /**
  * Created by azamat on 6/3/23.

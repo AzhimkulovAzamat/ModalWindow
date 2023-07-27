@@ -1,11 +1,12 @@
-package net.breez.modalscreens
+package net.breez.modalscreens.alert
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
+import net.breez.modalscreens.R
 import net.breez.modalscreens.alert.alternative.AlternativeLayoutIdSetup
 import net.breez.modalscreens.alert.notification.NotificationLayoutIdSetup
 import net.breez.modalscreens.alert.radio.RadioLayoutIdSetup
-import net.breez.modalscreens.model.DialogModel
+import net.breez.modalscreens.alert.model.DialogModel
 
 /**
  * Created by azamat on 19/7/23.
