@@ -17,6 +17,8 @@ class BaseBottomSheetBuilder : BottomSheetBuilder {
     private var bottomSheetViewHolder: BottomSheetViewHolder? = null
     private var cancelable: Boolean = true
 
+    override var dismiss: () -> Unit = {}
+
     override fun setViewHolder(bottomSheetViewHolder: BottomSheetViewHolder): BottomSheetBuilder {
         this.bottomSheetViewHolder = bottomSheetViewHolder
         this.layoutId = bottomSheetViewHolder.layoutId
@@ -38,6 +40,7 @@ class BaseBottomSheetBuilder : BottomSheetBuilder {
         val view = LayoutInflater.from(context).inflate(layoutId!!, null)
         val dialog = BottomSheetDialog(context)
 
+        dismiss = { dialog.dismiss() }
         customViewSetter?.invoke(view)
         bottomSheetViewHolder?.bind(view)
         dialog.setContentView(view!!)

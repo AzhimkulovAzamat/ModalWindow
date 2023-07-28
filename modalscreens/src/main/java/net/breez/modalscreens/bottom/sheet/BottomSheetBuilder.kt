@@ -11,6 +11,7 @@ import net.breez.modalscreens.CustomViewSetter
 
 interface BottomSheetBuilder {
 
+    var dismiss: () -> Unit
     fun setCancelable(cancelable: Boolean): BottomSheetBuilder
     fun setView(@LayoutRes layoutId: Int, customViewSetter: CustomViewSetter): BottomSheetBuilder
     fun setViewHolder(bottomSheetViewHolder: BottomSheetViewHolder): BottomSheetBuilder
