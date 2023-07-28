@@ -42,7 +42,7 @@ class BaseBottomSheetBuilder : BottomSheetBuilder {
 
         dismiss = { dialog.dismiss() }
         customViewSetter?.invoke(view)
-        bottomSheetViewHolder?.bind(view)
+        bottomSheetViewHolder?.bind(view, dismiss)
         dialog.setContentView(view!!)
         dialog.setCancelable(cancelable)
         return dialog

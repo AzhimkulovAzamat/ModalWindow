@@ -9,5 +9,5 @@ import androidx.annotation.LayoutRes
 
 abstract class BottomSheetViewHolder(@LayoutRes val layoutId: Int) {
 
-    abstract fun bind(view: View)
+    abstract fun bind(view: View, dismiss: () -> Unit)
 }
