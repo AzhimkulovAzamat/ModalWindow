@@ -81,10 +81,10 @@ class SnackbarNotificationBuilderImpl : SnackbarNotificationBuilder {
             layoutId = SnackbarBuilderConfig.viewHolder.layoutId
         }
 
-        val snackbar = Snackbar.make(container, "", Snackbar.LENGTH_LONG)
+        val snackbar = Snackbar.make(container, "", length ?: snackbarModel?.duration ?: Snackbar.LENGTH_LONG)
         val layout = snackbar.view as Snackbar.SnackbarLayout
-        val snackbarLayout = LayoutInflater.from(container.context).inflate(layoutId!!, layout, true) as Snackbar.SnackbarLayout
-        val view = snackbarLayout.children.last()
+        LayoutInflater.from(container.context).inflate(layoutId!!, layout, true)
+        val view = layout.children.last()
         snackbarModel?.let { view.setBackgroundResource(it.background) }
         dismiss = { snackbar.dismiss() }
 
@@ -95,10 +95,6 @@ class SnackbarNotificationBuilderImpl : SnackbarNotificationBuilder {
             snackbarViewHolder?.bind(view, snackbarModel, dismiss) ?: kotlin.run {
                 SnackbarBuilderConfig.viewHolder.bind(view, snackbarModel, dismiss)
             }
-        }
-
-        length?.let { snackbar.duration = it } ?: kotlin.run {
-            snackbar.duration = snackbarModel?.duration ?: Snackbar.LENGTH_LONG
         }
 
         return snackbar
