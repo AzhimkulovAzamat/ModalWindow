@@ -22,5 +22,10 @@ class SimpleSnackbarViewHolder :
         val binding = BreezSnackbarLayoutBinding.bind(view)
         binding.textViewTitle.text = snackbarModel?.message?.getString(view.context)
         snackbarModel?.icon?.let { binding.imageViewLogo.setImageResource(it) }
+        snackbarModel?.closeIcon?.let {
+            binding.imageViewClose.visibility = View.VISIBLE
+            binding.imageViewClose.setImageResource(it)
+            binding.imageViewClose.setOnClickListener { dismiss() }
+        }
     }
 }

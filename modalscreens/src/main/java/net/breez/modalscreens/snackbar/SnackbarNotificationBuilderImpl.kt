@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
 import net.breez.modalscreens.CustomViewSetter
 
@@ -27,6 +28,8 @@ class SnackbarNotificationBuilderImpl : SnackbarNotificationBuilder {
 
     private var length: Int? = null
     private var snackbarModel:SnackbarModel? = null
+
+    override var dismiss: () -> Unit = {}
 
     override fun setViewHolder(holder: SnackbarViewHolder): SnackbarNotificationBuilder {
         this.snackbarViewHolder = holder
@@ -74,18 +77,25 @@ class SnackbarNotificationBuilderImpl : SnackbarNotificationBuilder {
     }
 
     override fun create(container: View): Snackbar {
+        if (layoutId == null) {
+            layoutId = SnackbarBuilderConfig.viewHolder.layoutId
+        }
+
         val snackbar = Snackbar.make(container, "", Snackbar.LENGTH_LONG)
         val layout = snackbar.view as Snackbar.SnackbarLayout
-        val view = LayoutInflater.from(container.context).inflate(layoutId!!, layout, true)
+        val snackbarLayout = LayoutInflater.from(container.context).inflate(layoutId!!, layout, true) as Snackbar.SnackbarLayout
+        val view = snackbarLayout.children.last()
         snackbarModel?.let { view.setBackgroundResource(it.background) }
+        dismiss = { snackbar.dismiss() }
 
         removeInitialView(layout)
         setPaddings(layout)
 
-        snackbarViewHolder?.let { it.bind(view, snackbarModel) {} } ?: kotlin.run {
-            SnackbarBuilderConfig.viewHolder.bind(view, snackbarModel) {}
+        customViewSetter?.invoke(view) ?: kotlin.run {
+            snackbarViewHolder?.bind(view, snackbarModel, dismiss) ?: kotlin.run {
+                SnackbarBuilderConfig.viewHolder.bind(view, snackbarModel, dismiss)
+            }
         }
-        customViewSetter?.invoke(view)
 
         length?.let { snackbar.duration = it } ?: kotlin.run {
             snackbar.duration = snackbarModel?.duration ?: Snackbar.LENGTH_LONG

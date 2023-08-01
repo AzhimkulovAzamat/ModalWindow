@@ -31,4 +31,5 @@ interface SnackbarNotificationBuilder {
 
     fun fromOptions(optionsId: Int): SnackbarNotificationBuilder
     fun create(container: View): Snackbar
+    var dismiss: () -> Unit
 }

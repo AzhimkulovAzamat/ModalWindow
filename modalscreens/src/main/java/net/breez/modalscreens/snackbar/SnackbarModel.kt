@@ -15,26 +15,30 @@ data class SnackbarModel(
     val background: Int,
     @DrawableRes
     val icon: Int?,
+    val closeIcon: Int?,
     val duration: Int?
 ) {
     constructor(
         message: String,
         @DrawableRes
         background: Int,
-        icon: Int,
-        duration: Int
-    ) : this(message.toSOR(), background, icon, duration)
+        icon: Int?,
+        closeIcon: Int?,
+        duration: Int?
+    ) : this(message.toSOR(), background, icon, closeIcon, duration)
 
     constructor(
         @StringRes messageId: Int,
         @DrawableRes
         background: Int,
-        icon: Int,
-        duration: Int
+        icon: Int?,
+        closeIcon: Int?,
+        duration: Int?
     ) : this(
         messageId.toSOR(),
         background,
         icon,
+        closeIcon,
         duration,
     )
 }
