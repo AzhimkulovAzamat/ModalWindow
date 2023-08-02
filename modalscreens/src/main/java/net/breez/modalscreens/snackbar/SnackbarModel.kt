@@ -9,7 +9,7 @@ import net.breez.modalscreens.toSOR
  * Created by azamat on 1/8/23.
  */
 
-data class SnackbarModel(
+open class SnackbarModel(
     val message: StringOrResource,
     @DrawableRes
     val background: Int,

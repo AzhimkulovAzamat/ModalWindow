@@ -21,6 +21,9 @@ class AlertDialogBuilderConfig {
         @LayoutRes
         private var alternativeLayoutId: Int? = null
 
+        @LayoutRes
+        var radioLayoutId: Int? = null
+
         var defaultNotificationLayoutIds: NotificationLayoutIdSetup? = null
         var defaultAlternativeLayoutIds: AlternativeLayoutIdSetup? = null
         var defaultRadioLayoutIds: RadioLayoutIdSetup? = null
@@ -47,6 +50,11 @@ class AlertDialogBuilderConfig {
             return this
         }
 
+        fun setRadioLayoutId(layoutId: Int): Builder {
+            this.radioLayoutId = layoutId
+            return this
+        }
+
         fun setRadioLayoutIdsSetup(setup: RadioLayoutIdSetup): Builder {
             this.defaultRadioLayoutIds = setup
             return this
@@ -56,6 +64,7 @@ class AlertDialogBuilderConfig {
             this.options?.let { Companion.options = it }
             this.notificationLayoutId?.let { Companion.notificationLayoutId = it }
             this.alternativeLayoutId?.let { Companion.alternativeLayoutId = it }
+            this.radioLayoutId?.let { Companion.radioLayoutId = it }
             this.defaultNotificationLayoutIds?.let { Companion.defaultNotificationLayoutIds = it }
             this.defaultAlternativeLayoutIds?.let { Companion.defaultAlternativeLayoutIds = it }
             this.defaultRadioLayoutIds?.let { Companion.defaultRadioLayoutIds = it }
