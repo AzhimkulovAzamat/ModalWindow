@@ -103,3 +103,21 @@ To use the ModalWindow library, follow these steps:
       .show()
      ```
    
+   ### BaseBottomSheetBuilder
+   To create custom bottom sheet use class BaseBottomSheetBuilder with your viewHolder extended from BottomSheetViewHolder
+   ```kotlin
+   BaseBottomSheetBuilder()
+            .setViewHolder(YourBottomSheetViewHolder())
+            .create(context)
+   ```
+   or create with anonymous viewHolder
+   ```kotlin
+   BaseBottomSheetBuilder()
+            .setViewHolder(object : BottomSheetViewHolder(R.layout.bottom_sheet_view_holder_layout) {
+                override fun bind(view: View, dismiss: () -> Unit) {
+                    val binding = BottomSheetViewHolderLayoutBinding.bind(view)
+                    // Do some setting to yout view
+                }
+            })
+            .create(cotext)
+   ```
