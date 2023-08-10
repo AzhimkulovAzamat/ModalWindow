@@ -2,6 +2,7 @@ package net.breez.modalscreens.alert.notification
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import net.breez.modalscreens.OnClickedListener
 import net.breez.modalscreens.alert.DialogBuilder
 
 /**
@@ -20,6 +21,8 @@ interface NotificationDialogBuilder: DialogBuilder {
 
     fun setPositiveButtonTitle(@StringRes title: Int): NotificationDialogBuilder
     fun setPositiveButtonTitle(title: String): NotificationDialogBuilder
+
+    fun setOnPositiveClickListener(listener: OnClickedListener): NotificationDialogBuilder
 
     fun setCancelable(isCancelable: Boolean): NotificationDialogBuilder
 }

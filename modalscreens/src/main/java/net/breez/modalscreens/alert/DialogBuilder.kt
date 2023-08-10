@@ -10,8 +10,6 @@ import androidx.appcompat.app.AlertDialog
  */
 
 interface DialogBuilder {
-
-    fun bind(view: View, dialog: AlertDialog)
     fun setBackground(@DrawableRes resourceId: Int): DialogBuilder
 
     fun create(context: Context): AlertDialog

@@ -10,11 +10,8 @@ import com.google.android.material.snackbar.Snackbar
  */
 
 interface SnackbarBuilder {
-
-    fun bind(view: View, snackbar: Snackbar)
     fun setBackground(@DrawableRes resourceId: Int): SnackbarBuilder
     fun setLength(@IntRange(from = -2, to = 0) length: Int): SnackbarBuilder
     fun setGravity(gravity: Int): SnackbarBuilder
-
     fun create(container: View): Snackbar
 }

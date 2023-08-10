@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import net.breez.modalscreens.alert.DialogBuilder
 import net.breez.modalscreens.alert.collection.BreezRadioViewHolder
 import net.breez.modalscreens.alert.collection.RadioViewHolder
 import net.breez.modalscreens.databinding.BreezRowRadioLayoutBinding
@@ -12,7 +13,7 @@ import net.breez.modalscreens.databinding.BreezRowRadioLayoutBinding
  * Created by azamat on 10/8/23.
  */
 
-interface RadioDialogBuilder<T> {
+interface RadioDialogBuilder<T>: DialogBuilder {
 
     fun setIcon(@DrawableRes iconRes: Int): RadioDialogBuilder<T>
 

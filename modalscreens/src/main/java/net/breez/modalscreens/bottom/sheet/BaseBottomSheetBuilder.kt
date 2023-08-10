@@ -2,6 +2,7 @@ package net.breez.modalscreens.bottom.sheet
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import androidx.annotation.LayoutRes
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
@@ -10,6 +11,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
  */
 
 abstract class BaseBottomSheetBuilder(@LayoutRes val layoutId: Int) : BottomSheetBuilder {
+
+    abstract fun bind(view: View, bottomSheet: BottomSheetDialog)
 
     override fun create(context: Context): BottomSheetDialog {
         val view = LayoutInflater.from(context).inflate(layoutId, null)

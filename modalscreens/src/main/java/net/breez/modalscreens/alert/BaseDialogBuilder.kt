@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
+import android.view.View
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
@@ -21,6 +22,8 @@ abstract class BaseDialogBuilder : DialogBuilder {
 
     @get:LayoutRes
     abstract val layoutRes: Int
+
+    abstract fun bind(view: View, dialog: AlertDialog)
 
     override fun setBackground(resourceId: Int): DialogBuilder {
         background = resourceId

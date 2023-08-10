@@ -21,6 +21,8 @@ abstract class BaseSnackbarBuilder() : SnackbarBuilder {
     @get:LayoutRes
     abstract val layoutRes: Int
 
+    abstract fun bind(view: View, snackbar: Snackbar)
+
     override fun setLength(length: Int): SnackbarBuilder {
         this.length = length
         return this

@@ -12,6 +12,5 @@ import net.breez.modalscreens.CustomViewSetter
 
 interface BottomSheetBuilder {
 
-    fun bind(view: View, bottomSheet: BottomSheetDialog)
     fun create(context: Context): BottomSheetDialog
 }

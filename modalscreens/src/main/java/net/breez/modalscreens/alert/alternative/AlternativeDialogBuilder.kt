@@ -2,12 +2,14 @@ package net.breez.modalscreens.alert.alternative
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import net.breez.modalscreens.OnClickedListener
+import net.breez.modalscreens.alert.DialogBuilder
 
 /**
  * Created by azamat on 9/8/23.
  */
 
-interface AlternativeDialogBuilder {
+interface AlternativeDialogBuilder: DialogBuilder {
 
     fun setIcon(@DrawableRes iconRes: Int): AlternativeDialogBuilder
 
@@ -22,6 +24,9 @@ interface AlternativeDialogBuilder {
 
     fun setNegativeButtonTitle(@StringRes title: Int): AlternativeDialogBuilder
     fun setNegativeButtonTitle(title: String): AlternativeDialogBuilder
+
+    fun setPositiveClickListener(listener: OnClickedListener): AlternativeDialogBuilder
+    fun setNegativeClickListener(listener: OnClickedListener): AlternativeDialogBuilder
 
     fun setCancelable(isCancelable: Boolean): AlternativeDialogBuilder
 }

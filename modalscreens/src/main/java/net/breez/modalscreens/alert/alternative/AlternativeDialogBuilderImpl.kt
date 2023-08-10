@@ -6,12 +6,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
-import net.breez.modalscreens.ModalWindowConfig
-import net.breez.modalscreens.R
-import net.breez.modalscreens.StringOrResource
+import net.breez.modalscreens.*
 import net.breez.modalscreens.alert.BaseDialogBuilder
 import net.breez.modalscreens.databinding.BreezAlternativeDialogLayoutBinding
-import net.breez.modalscreens.toSOR
 
 /**
  * Created by azamat on 9/8/23.
@@ -28,6 +25,10 @@ open class AlternativeDialogBuilderImpl : BaseDialogBuilder(),
     private var positiveButtonTitle: StringOrResource? = null
     private var negativeButtonTitle: StringOrResource? = null
     private var isCancelable: Boolean = true
+
+    private var positiveButtonClickListener:OnClickedListener? = null
+    private var negativeButtonClickListener:OnClickedListener? = null
+
     override val layoutRes: Int
         get() = ModalWindowConfig.alternativeLayoutId
 
@@ -76,6 +77,16 @@ open class AlternativeDialogBuilderImpl : BaseDialogBuilder(),
         return this
     }
 
+    override fun setPositiveClickListener(listener: OnClickedListener): AlternativeDialogBuilder {
+        this.positiveButtonClickListener = listener
+        return this
+    }
+
+    override fun setNegativeClickListener(listener: OnClickedListener): AlternativeDialogBuilder {
+        this.negativeButtonClickListener = listener
+        return this
+    }
+
     override fun setCancelable(isCancelable: Boolean): AlternativeDialogBuilder {
         this.isCancelable = isCancelable
         return this
@@ -87,6 +98,16 @@ open class AlternativeDialogBuilderImpl : BaseDialogBuilder(),
         val positiveButton = view.findViewById<Button>(R.id.positiveButton)
         val negativeButton = view.findViewById<Button>(R.id.negativeButton)
         val imageViewIcon = view.findViewById<ImageView>(R.id.imageView_icon)
+
+        positiveButton.setOnClickListener {
+            positiveButtonClickListener?.invoke()
+            dialog.dismiss()
+        }
+
+        negativeButton.setOnClickListener {
+            negativeButtonClickListener?.invoke()
+            dialog.dismiss()
+        }
 
         textViewTitle.text = title?.getString(view.context)
         textViewMessage.text = message?.getString(view.context)

@@ -6,12 +6,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
-import net.breez.modalscreens.ModalWindowConfig
-import net.breez.modalscreens.R
-import net.breez.modalscreens.StringOrResource
+import net.breez.modalscreens.*
 import net.breez.modalscreens.alert.BaseDialogBuilder
 import net.breez.modalscreens.databinding.BreezNotificationDialogLayoutBinding
-import net.breez.modalscreens.toSOR
 
 /**
  * Created by azamat on 9/8/23.
@@ -26,6 +23,9 @@ class NotificationDialogBuilderImpl() :
     private var message: StringOrResource? = null
     private var positiveButtonTitle: StringOrResource? = null
     private var isCancelable: Boolean = true
+
+    private var onPositiveClickListener: OnClickedListener? = null
+
     override val layoutRes: Int
         get() = ModalWindowConfig.notificationLayoutId
 
@@ -64,6 +64,11 @@ class NotificationDialogBuilderImpl() :
         return this
     }
 
+    override fun setOnPositiveClickListener(listener: OnClickedListener): NotificationDialogBuilder {
+        onPositiveClickListener = listener
+        return this
+    }
+
     override fun setCancelable(isCancelable: Boolean): NotificationDialogBuilder {
         this.isCancelable = isCancelable
         return this
@@ -74,6 +79,11 @@ class NotificationDialogBuilderImpl() :
         val textViewMessage = view.findViewById<TextView>(R.id.textView_message)
         val positiveButton = view.findViewById<Button>(R.id.positiveButton)
         val imageViewIcon = view.findViewById<ImageView>(R.id.imageView_icon)
+
+        positiveButton.setOnClickListener {
+            onPositiveClickListener?.invoke()
+            dialog.dismiss()
+        }
 
         textViewTitle.text = title?.getString(view.context)
         textViewMessage.text = message?.getString(view.context)
