@@ -1,44 +1,27 @@
 package net.breez.modalscreens.alert.alternative
 
 import androidx.annotation.DrawableRes
-import androidx.annotation.IdRes
 import androidx.annotation.StringRes
-import net.breez.modalscreens.CustomViewSetter
-import net.breez.modalscreens.OnClickedListener
-import net.breez.modalscreens.alert.BaseDialogBuilderContract
 
 /**
- * Created by azamat on 23/4/23.
+ * Created by azamat on 9/8/23.
  */
 
-interface AlternativeDialogBuilder : BaseDialogBuilderContract {
+interface AlternativeDialogBuilder {
 
-    fun setIcon(@DrawableRes drawableId: Int): AlternativeDialogBuilder
+    fun setIcon(@DrawableRes iconRes: Int): AlternativeDialogBuilder
 
-    override fun setTitle(title: Int): AlternativeDialogBuilder
-    override fun setTitle(title: String): AlternativeDialogBuilder
+    fun setTitle(@StringRes title: Int): AlternativeDialogBuilder
+    fun setTitle(title: String): AlternativeDialogBuilder
 
-    override fun setCancelable(cancelable: Boolean): AlternativeDialogBuilder
+    fun setMessage(@StringRes message: Int): AlternativeDialogBuilder
+    fun setMessage(message: String): AlternativeDialogBuilder
 
-    override fun setBackground(resourceId: Int): AlternativeDialogBuilder
+    fun setPositiveButtonTitle(@StringRes title: Int): AlternativeDialogBuilder
+    fun setPositiveButtonTitle(title: String): AlternativeDialogBuilder
 
-    override fun setMessage(@StringRes message: Int): AlternativeDialogBuilder
-    override fun setMessage(message: String): AlternativeDialogBuilder
+    fun setNegativeButtonTitle(@StringRes title: Int): AlternativeDialogBuilder
+    fun setNegativeButtonTitle(title: String): AlternativeDialogBuilder
 
-    fun setPositiveTitle(@StringRes title: Int): AlternativeDialogBuilder
-    fun setPositiveTitle(title: String): AlternativeDialogBuilder
-
-    fun setPositiveClickedListener(onClicked: OnClickedListener): AlternativeDialogBuilder
-
-    fun setNegativeTitle(@StringRes title: Int): AlternativeDialogBuilder
-    fun setNegativeTitle(title: String): AlternativeDialogBuilder
-
-    fun setNegativeClickedListener(onClicked: OnClickedListener): AlternativeDialogBuilder
-
-    fun setView(
-        @IdRes viewId: Int,
-        customViewSetter: CustomViewSetter
-    ): AlternativeDialogBuilder
-
-    fun fromOptions(@StringRes dialogId: Int): AlternativeDialogBuilder
+    fun setCancelable(isCancelable: Boolean): AlternativeDialogBuilder
 }

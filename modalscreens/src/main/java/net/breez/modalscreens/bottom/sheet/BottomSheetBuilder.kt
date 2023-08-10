@@ -1,6 +1,7 @@
 package net.breez.modalscreens.bottom.sheet
 
 import android.content.Context
+import android.view.View
 import androidx.annotation.LayoutRes
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import net.breez.modalscreens.CustomViewSetter
@@ -11,9 +12,6 @@ import net.breez.modalscreens.CustomViewSetter
 
 interface BottomSheetBuilder {
 
-    var dismiss: () -> Unit
-    fun setCancelable(cancelable: Boolean): BottomSheetBuilder
-    fun setView(@LayoutRes layoutId: Int, customViewSetter: CustomViewSetter): BottomSheetBuilder
-    fun setViewHolder(bottomSheetViewHolder: BottomSheetViewHolder): BottomSheetBuilder
+    fun bind(view: View, bottomSheet: BottomSheetDialog)
     fun create(context: Context): BottomSheetDialog
 }

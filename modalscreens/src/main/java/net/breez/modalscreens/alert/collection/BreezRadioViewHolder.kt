@@ -1,4 +1,4 @@
-package net.breez.modalscreens.alert.radio
+package net.breez.modalscreens.alert.collection
 
 import net.breez.modalscreens.databinding.BreezRowRadioLayoutBinding
 

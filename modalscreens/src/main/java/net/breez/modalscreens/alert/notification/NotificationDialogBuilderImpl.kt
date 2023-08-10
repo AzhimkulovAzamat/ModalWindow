@@ -1,134 +1,84 @@
 package net.breez.modalscreens.alert.notification
 
-import android.content.Context
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.view.LayoutInflater
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
-import net.breez.modalscreens.*
-import net.breez.modalscreens.alert.AlertDialogBuilderConfig
-import net.breez.modalscreens.alert.AlertDialogBuilderConfig.Companion.defaultNotificationLayoutIds
+import net.breez.modalscreens.ModalWindowConfig
+import net.breez.modalscreens.R
 import net.breez.modalscreens.StringOrResource
+import net.breez.modalscreens.alert.BaseDialogBuilder
+import net.breez.modalscreens.databinding.BreezNotificationDialogLayoutBinding
+import net.breez.modalscreens.toSOR
 
 /**
- * Created by azamat on 22/4/23.
+ * Created by azamat on 9/8/23.
  */
 
-class NotificationDialogBuilderImpl(
-    notificationLayoutIdSetup: NotificationLayoutIdSetup = defaultNotificationLayoutIds
-) :
-    NotificationDialogBuilder, NotificationLayoutIdSetup by notificationLayoutIdSetup {
+class NotificationDialogBuilderImpl() :
+    BaseDialogBuilder(), NotificationDialogBuilder {
 
+    @DrawableRes
     private var icon: Int? = null
     private var title: StringOrResource? = null
     private var message: StringOrResource? = null
-
-    private var onPositiveClicked: OnClickedListener? = null
     private var positiveButtonTitle: StringOrResource? = null
-
     private var isCancelable: Boolean = true
+    override val layoutRes: Int
+        get() = ModalWindowConfig.notificationLayoutId
 
-    private val customViewSetters = mutableMapOf<Int, CustomViewSetter>()
-
-    override var dismiss: () -> Unit = {}
-
-    override fun setIcon(drawableId: Int): NotificationDialogBuilderImpl {
-        this.icon = drawableId
+    override fun setIcon(iconRes: Int): NotificationDialogBuilder {
+        this.icon = iconRes
         return this
     }
 
-    override fun setTitle(title: Int): NotificationDialogBuilderImpl {
-        this.title = StringOrResource(title)
+    override fun setTitle(title: Int): NotificationDialogBuilder {
+        this.title = title.toSOR()
         return this
     }
 
-    override fun setTitle(title: String): NotificationDialogBuilderImpl {
-        this.title = StringOrResource(title)
+    override fun setTitle(title: String): NotificationDialogBuilder {
+        this.title = title.toSOR()
         return this
     }
 
-    override fun setMessage(message: Int): NotificationDialogBuilderImpl {
-        this.message = StringOrResource(message)
+    override fun setMessage(message: Int): NotificationDialogBuilder {
+        this.message = message.toSOR()
         return this
     }
 
-    override fun setMessage(message: String): NotificationDialogBuilderImpl {
-        this.message = StringOrResource(message)
+    override fun setMessage(message: String): NotificationDialogBuilder {
+        this.message = message.toSOR()
         return this
     }
 
-    override fun setConfirmButtonTitle(title: Int): NotificationDialogBuilder {
-        this.positiveButtonTitle = StringOrResource(title)
+    override fun setPositiveButtonTitle(title: Int): NotificationDialogBuilder {
+        positiveButtonTitle = title.toSOR()
         return this
     }
 
-    override fun setConfirmButtonTitle(title: String): NotificationDialogBuilder {
-        this.positiveButtonTitle = StringOrResource(title)
+    override fun setPositiveButtonTitle(title: String): NotificationDialogBuilder {
+        positiveButtonTitle = title.toSOR()
         return this
     }
 
-    override fun setConfirmButtonClickedListener(onClicked: OnClickedListener): NotificationDialogBuilder {
-        this.onPositiveClicked = onClicked
+    override fun setCancelable(isCancelable: Boolean): NotificationDialogBuilder {
+        this.isCancelable = isCancelable
         return this
     }
 
-    override fun setCancelable(cancelable: Boolean): NotificationDialogBuilder {
-        isCancelable = cancelable
-        return this
-    }
+    override fun bind(view: View, dialog: AlertDialog) {
+        val textViewTitle = view.findViewById<TextView>(R.id.textView_title)
+        val textViewMessage = view.findViewById<TextView>(R.id.textView_message)
+        val positiveButton = view.findViewById<Button>(R.id.positiveButton)
+        val imageViewIcon = view.findViewById<ImageView>(R.id.imageView_icon)
 
-    override fun setBackground(resourceId: Int): NotificationDialogBuilder {
-        throw UnsupportedOperationException()
-    }
-
-    override fun setView(
-        viewId: Int,
-        customViewSetter: CustomViewSetter
-    ): NotificationDialogBuilder {
-        customViewSetters[viewId] = customViewSetter
-        return this
-    }
-
-    override fun fromOptions(dialogId: Int): NotificationDialogBuilder {
-        val model = AlertDialogBuilderConfig.options.getByKey(dialogId)
-
-        icon = model.image
-        title = model.title
-        message = model.message
-        positiveButtonTitle = model.positiveTitle
-        isCancelable = model.isCancelable
-
-        return this
-    }
-
-    override fun create(context: Context): AlertDialog {
-        val rootView = LayoutInflater.from(context)
-            .inflate(AlertDialogBuilderConfig.notificationLayoutId, null, false)
-        val alertDialog: AlertDialog =
-            AlertDialog.Builder(context).setView(rootView).create()
-        dismiss = { alertDialog.dismiss() }
-        icon?.let { rootView.findViewById<ImageView>(iconViewId).setImageResource(it) }
-        message?.let { rootView.findViewById<TextView>(messageViewId).text = it.getString(context) }
-        rootView.findViewById<TextView>(titleViewId).text = title!!.getString(context)
-        rootView.findViewById<TextView>(submitButtonId).apply {
-            text = positiveButtonTitle!!.getString(context)
-            setOnClickListener {
-                onPositiveClicked?.invoke()
-                dismiss()
-            }
-        }
-        alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        rootView.setBackgroundResource(AlertDialogBuilderConfig.backgroundId)
-
-        customViewSetters.forEach { item ->
-            val view = rootView.findViewById<View>(item.key)
-            item.value(view)
-        }
-
-        alertDialog.setCancelable(isCancelable)
-        return alertDialog
+        textViewTitle.text = title?.getString(view.context)
+        textViewMessage.text = message?.getString(view.context)
+        positiveButton.text = positiveButtonTitle?.getString(view.context)
+        icon?.let { imageViewIcon.setImageResource(it) }
+        dialog.setCancelable(isCancelable)
     }
 }

@@ -1,4 +1,4 @@
-package net.breez.modalscreens.alert.radio
+package net.breez.modalscreens.alert.collection
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
