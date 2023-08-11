@@ -10,18 +10,15 @@ import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import net.breez.modalscreens.ModalWindowConfig
-import net.breez.modalscreens.R
-import net.breez.modalscreens.StringOrResource
+import net.breez.modalscreens.*
 import net.breez.modalscreens.alert.BaseDialogBuilder
 import net.breez.modalscreens.alert.collection.RadioViewHolder
-import net.breez.modalscreens.toSOR
 
 /**
  * Created by azamat on 7/8/23.
  */
 
-class CheckboxDialogBuilderImpl<T> : BaseDialogBuilder(), CheckboxDialogBuilder<T> {
+class CheckboxDialogBuilderImpl : BaseDialogBuilder(), CheckboxDialogBuilder {
 
     @DrawableRes
     private var icon: Int? = null
@@ -29,66 +26,79 @@ class CheckboxDialogBuilderImpl<T> : BaseDialogBuilder(), CheckboxDialogBuilder<
     private var message: StringOrResource? = null
     private var positiveButtonTitle: StringOrResource? = null
     private var negativeButtonTitle: StringOrResource? = null
+
+    private var positiveButtonClickListener:OnClickedListener? = null
+    private var negativeButtonClickListener:OnClickedListener? = null
+
     private var isCancelable: Boolean = true
-    private var interaction: CheckboxDialogBuilder.RecyclerAdapterInteraction<T>? = null
+    private var interaction: CheckboxDialogBuilder.RecyclerAdapterInteraction? = null
     override val layoutRes: Int
         get() = ModalWindowConfig.checkboxLayoutId
 
-    override fun setIcon(iconRes: Int): CheckboxDialogBuilder<T> {
+    override fun setIcon(iconRes: Int): CheckboxDialogBuilder {
         icon = iconRes
         return this
     }
 
-    override fun setTitle(title: Int): CheckboxDialogBuilder<T> {
+    override fun setTitle(title: Int): CheckboxDialogBuilder {
         this.title = title.toSOR()
         return this
     }
 
-    override fun setTitle(title: String): CheckboxDialogBuilder<T> {
+    override fun setTitle(title: String): CheckboxDialogBuilder {
         this.title = title.toSOR()
         return this
     }
 
-    override fun setMessage(message: Int): CheckboxDialogBuilder<T> {
+    override fun setMessage(message: Int): CheckboxDialogBuilder {
         this.message = message.toSOR()
         return this
     }
 
-    override fun setMessage(message: String): CheckboxDialogBuilder<T> {
+    override fun setMessage(message: String): CheckboxDialogBuilder {
         this.message = message.toSOR()
         return this
     }
 
-    override fun setNegativeButtonTitle(title: Int): CheckboxDialogBuilder<T> {
+    override fun setNegativeButtonTitle(title: Int): CheckboxDialogBuilder {
         this.negativeButtonTitle = title.toSOR()
         return this
     }
 
-    override fun setNegativeButtonTitle(title: String): CheckboxDialogBuilder<T> {
+    override fun setNegativeButtonTitle(title: String): CheckboxDialogBuilder {
         this.negativeButtonTitle = title.toSOR()
         return this
     }
 
-    override fun setPositiveButtonTitle(title: Int): CheckboxDialogBuilder<T> {
+    override fun setPositiveButtonTitle(title: Int): CheckboxDialogBuilder {
         this.positiveButtonTitle = title.toSOR()
         return this
     }
 
-    override fun setPositiveButtonTitle(title: String): CheckboxDialogBuilder<T> {
+    override fun setPositiveButtonTitle(title: String): CheckboxDialogBuilder {
         this.positiveButtonTitle = title.toSOR()
         return this
     }
 
-    override fun setCancelable(isCancelable: Boolean): CheckboxDialogBuilder<T> {
+    override fun setPositiveClickListener(listener: OnClickedListener): CheckboxDialogBuilder {
+        this.positiveButtonClickListener = listener
+        return this
+    }
+
+    override fun setNegativeClickListener(listener: OnClickedListener): CheckboxDialogBuilder {
+        this.negativeButtonClickListener = listener
+        return this
+    }
+
+    override fun setCancelable(isCancelable: Boolean): CheckboxDialogBuilder {
         this.isCancelable = isCancelable
         return this
     }
 
-    override fun setInteraction(value: CheckboxDialogBuilder.RecyclerAdapterInteraction<T>): CheckboxDialogBuilderImpl<T> {
+    override fun setInteraction(value: CheckboxDialogBuilder.RecyclerAdapterInteraction): CheckboxDialogBuilderImpl {
         interaction = value
         return this
     }
-
 
     @CallSuper
     override fun bind(view: View, dialog: AlertDialog) {
@@ -108,6 +118,14 @@ class CheckboxDialogBuilderImpl<T> : BaseDialogBuilder(), CheckboxDialogBuilder<
         negativeButtonTitle?.let {
             negativeButton.text = it.getString(view.context)
             negativeButton.visibility = View.VISIBLE
+        }
+        positiveButton.setOnClickListener {
+            positiveButtonClickListener?.invoke()
+            dialog.dismiss()
+        }
+        negativeButton.setOnClickListener {
+            negativeButtonClickListener?.invoke()
+            dialog.dismiss()
         }
         icon?.let { imageViewIcon.setImageResource(it) }
         dialog.setCancelable(isCancelable)

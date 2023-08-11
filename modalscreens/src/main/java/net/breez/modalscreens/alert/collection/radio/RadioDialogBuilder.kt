@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import net.breez.modalscreens.OnClickedListener
 import net.breez.modalscreens.alert.DialogBuilder
 import net.breez.modalscreens.alert.collection.BreezRadioViewHolder
 import net.breez.modalscreens.alert.collection.RadioViewHolder
@@ -13,26 +14,29 @@ import net.breez.modalscreens.databinding.BreezRowRadioLayoutBinding
  * Created by azamat on 10/8/23.
  */
 
-interface RadioDialogBuilder<T>: DialogBuilder {
+interface RadioDialogBuilder: DialogBuilder {
 
-    fun setIcon(@DrawableRes iconRes: Int): RadioDialogBuilder<T>
+    fun setIcon(@DrawableRes iconRes: Int): RadioDialogBuilder
 
-    fun setTitle(@StringRes title: Int): RadioDialogBuilder<T>
-    fun setTitle(title: String): RadioDialogBuilder<T>
+    fun setTitle(@StringRes title: Int): RadioDialogBuilder
+    fun setTitle(title: String): RadioDialogBuilder
 
-    fun setMessage(@StringRes message: Int): RadioDialogBuilder<T>
-    fun setMessage(message: String): RadioDialogBuilder<T>
+    fun setMessage(@StringRes message: Int): RadioDialogBuilder
+    fun setMessage(message: String): RadioDialogBuilder
 
-    fun setPositiveButtonTitle(@StringRes title: Int): RadioDialogBuilder<T>
-    fun setPositiveButtonTitle(title: String): RadioDialogBuilder<T>
+    fun setPositiveButtonTitle(@StringRes title: Int): RadioDialogBuilder
+    fun setPositiveButtonTitle(title: String): RadioDialogBuilder
 
-    fun setNegativeButtonTitle(@StringRes title: Int): RadioDialogBuilder<T>
-    fun setNegativeButtonTitle(title: String): RadioDialogBuilder<T>
+    fun setNegativeButtonTitle(@StringRes title: Int): RadioDialogBuilder
+    fun setNegativeButtonTitle(title: String): RadioDialogBuilder
 
-    fun setCancelable(isCancelable: Boolean): RadioDialogBuilder<T>
-    fun setInteraction(value: RecyclerAdapterInteraction<T>): RadioDialogBuilder<T>
+    fun setOnPositiveClickListener(listener: OnClickedListener): RadioDialogBuilder
+    fun setOnNegativeClickListener(listener: OnClickedListener): RadioDialogBuilder
+
+    fun setCancelable(isCancelable: Boolean): RadioDialogBuilder
+    fun setInteraction(value: RecyclerAdapterInteraction): RadioDialogBuilder
     
-    interface RecyclerAdapterInteraction<T> {
+    interface RecyclerAdapterInteraction {
         fun onCreateViewHolder(parent: ViewGroup): RadioViewHolder {
             val binding = BreezRowRadioLayoutBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -43,7 +47,7 @@ interface RadioDialogBuilder<T>: DialogBuilder {
         }
 
         fun getItemSize(): Int
-        fun getModel(position: Int): T
+        fun getModel(position: Int): Any
         fun onSelected(position: Int)
     }
 }

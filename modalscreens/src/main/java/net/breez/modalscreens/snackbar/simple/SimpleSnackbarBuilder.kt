@@ -19,7 +19,7 @@ import net.breez.modalscreens.toSOR
  * Created by azamat on 9/8/23.
  */
 
-interface SimpleSnackbarBuilder {
+interface SimpleSnackbarBuilder: SnackbarBuilder {
 
     fun setIcon(@DrawableRes icon: Int): SimpleSnackbarBuilder
 

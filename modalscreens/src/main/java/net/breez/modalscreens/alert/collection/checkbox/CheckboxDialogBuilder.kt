@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import net.breez.modalscreens.OnClickedListener
 import net.breez.modalscreens.alert.DialogBuilder
 import net.breez.modalscreens.alert.collection.BreezRadioViewHolder
 import net.breez.modalscreens.alert.collection.RadioViewHolder
@@ -14,27 +15,30 @@ import net.breez.modalscreens.databinding.BreezRowRadioLayoutBinding
  * Created by azamat on 10/8/23.
  */
 
-interface CheckboxDialogBuilder<T>: DialogBuilder {
+interface CheckboxDialogBuilder: DialogBuilder {
 
-    fun setIcon(@DrawableRes iconRes: Int): CheckboxDialogBuilder<T>
+    fun setIcon(@DrawableRes iconRes: Int): CheckboxDialogBuilder
 
-    fun setTitle(@StringRes title: Int): CheckboxDialogBuilder<T>
-    fun setTitle(title: String): CheckboxDialogBuilder<T>
+    fun setTitle(@StringRes title: Int): CheckboxDialogBuilder
+    fun setTitle(title: String): CheckboxDialogBuilder
 
-    fun setMessage(@StringRes message: Int): CheckboxDialogBuilder<T>
-    fun setMessage(message: String): CheckboxDialogBuilder<T>
+    fun setMessage(@StringRes message: Int): CheckboxDialogBuilder
+    fun setMessage(message: String): CheckboxDialogBuilder
 
-    fun setPositiveButtonTitle(@StringRes title: Int): CheckboxDialogBuilder<T>
-    fun setPositiveButtonTitle(title: String): CheckboxDialogBuilder<T>
+    fun setPositiveButtonTitle(@StringRes title: Int): CheckboxDialogBuilder
+    fun setPositiveButtonTitle(title: String): CheckboxDialogBuilder
 
-    fun setNegativeButtonTitle(@StringRes title: Int): CheckboxDialogBuilder<T>
-    fun setNegativeButtonTitle(title: String): CheckboxDialogBuilder<T>
+    fun setNegativeButtonTitle(@StringRes title: Int): CheckboxDialogBuilder
+    fun setNegativeButtonTitle(title: String): CheckboxDialogBuilder
 
-    fun setCancelable(isCancelable: Boolean): CheckboxDialogBuilder<T>
-    fun setInteraction(value: RecyclerAdapterInteraction<T>): CheckboxDialogBuilder<T>
+    fun setPositiveClickListener(listener: OnClickedListener): CheckboxDialogBuilder
+    fun setNegativeClickListener(listener: OnClickedListener): CheckboxDialogBuilder
+
+    fun setCancelable(isCancelable: Boolean): CheckboxDialogBuilder
+    fun setInteraction(value: RecyclerAdapterInteraction): CheckboxDialogBuilder
 
 
-    interface RecyclerAdapterInteraction<T> {
+    interface RecyclerAdapterInteraction {
         fun onCreateViewHolder(parent: ViewGroup): RadioViewHolder {
             val binding = BreezRowRadioLayoutBinding.inflate(
                 LayoutInflater.from(parent.context),
@@ -45,7 +49,7 @@ interface CheckboxDialogBuilder<T>: DialogBuilder {
         }
 
         fun getItemSize(): Int
-        fun getModel(position: Int): T
+        fun getModel(position: Int): Any
         fun onItemClicked(position: Int)
         fun isSelected(position: Int): Boolean
     }

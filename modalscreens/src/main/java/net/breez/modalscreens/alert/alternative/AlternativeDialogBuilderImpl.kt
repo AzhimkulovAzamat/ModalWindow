@@ -77,12 +77,12 @@ open class AlternativeDialogBuilderImpl : BaseDialogBuilder(),
         return this
     }
 
-    override fun setPositiveClickListener(listener: OnClickedListener): AlternativeDialogBuilder {
+    override fun setOnPositiveClickListener(listener: OnClickedListener): AlternativeDialogBuilder {
         this.positiveButtonClickListener = listener
         return this
     }
 
-    override fun setNegativeClickListener(listener: OnClickedListener): AlternativeDialogBuilder {
+    override fun setOnNegativeClickListener(listener: OnClickedListener): AlternativeDialogBuilder {
         this.negativeButtonClickListener = listener
         return this
     }

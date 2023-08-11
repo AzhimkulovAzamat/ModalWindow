@@ -25,8 +25,8 @@ interface AlternativeDialogBuilder: DialogBuilder {
     fun setNegativeButtonTitle(@StringRes title: Int): AlternativeDialogBuilder
     fun setNegativeButtonTitle(title: String): AlternativeDialogBuilder
 
-    fun setPositiveClickListener(listener: OnClickedListener): AlternativeDialogBuilder
-    fun setNegativeClickListener(listener: OnClickedListener): AlternativeDialogBuilder
+    fun setOnPositiveClickListener(listener: OnClickedListener): AlternativeDialogBuilder
+    fun setOnNegativeClickListener(listener: OnClickedListener): AlternativeDialogBuilder
 
     fun setCancelable(isCancelable: Boolean): AlternativeDialogBuilder
 }
