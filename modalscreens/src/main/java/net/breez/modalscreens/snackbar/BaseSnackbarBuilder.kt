@@ -13,6 +13,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
 import net.breez.modalscreens.Margins
+import net.breez.modalscreens.R
 import net.breez.modalscreens.dp
 import net.breez.modalscreens.snackbar.simple.SimpleSnackbarBuilder
 
@@ -27,7 +28,7 @@ abstract class BaseSnackbarBuilder : SnackbarBuilder {
     private var margins: Margins = Margins.horizontal(6)
     @DrawableRes
     @ColorRes
-    private var background: Int? = null
+    private var background: Int? = R.drawable.default_snackbar_background
 
     @get:LayoutRes
     abstract val layoutRes: Int

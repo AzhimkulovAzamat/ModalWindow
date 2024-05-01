@@ -100,7 +100,10 @@ class SimpleSnackbarBuilderImpl : BaseSnackbarBuilder(),
         }
 
         val imageViewLogo = view.findViewById<ImageView>(R.id.imageView_logo)
-        icon?.let { imageViewLogo.setImageResource(it) }
+        icon?.let {
+            imageViewLogo.visibility = View.VISIBLE
+            imageViewLogo.setImageResource(it)
+        }
 
         val imageViewClose = view.findViewById<ImageView>(R.id.imageView_close)
         closeIcon?.let {
