@@ -25,7 +25,7 @@ abstract class BaseSnackbarBuilder : SnackbarBuilder {
 
     private var gravity: Int = Gravity.TOP
     private var length: Int = Snackbar.LENGTH_LONG
-    private var margins: Margins = Margins.horizontal(6)
+    private var margins: Margins = Margins()
     @DrawableRes
     @ColorRes
     private var background: Int? = R.drawable.default_snackbar_background
