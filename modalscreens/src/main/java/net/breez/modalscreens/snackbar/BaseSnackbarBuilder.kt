@@ -62,12 +62,6 @@ abstract class BaseSnackbarBuilder : SnackbarBuilder {
         val view = layout.children.last()
 
         (layout.layoutParams as? FrameLayout.LayoutParams)?.gravity = gravity
-        (layout.layoutParams as? FrameLayout.LayoutParams)?.setMargins(
-            margins.start.dp(container.context).toInt(),
-            margins.top.dp(container.context).toInt(),
-            margins.end.dp(container.context).toInt(),
-            margins.bottom.dp(container.context).toInt()
-        )
         removeInitialView(layout)
 
         bind(view, snackbar)
@@ -80,6 +74,11 @@ abstract class BaseSnackbarBuilder : SnackbarBuilder {
         (layout.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView).visibility =
             View.INVISIBLE
         layout.setBackgroundResource(android.R.color.transparent)
-        layout.setPadding(0, 0, 0, 0)
+        layout.setPadding(
+            margins.start.dp(layout.context).toInt(),
+            margins.top.dp(layout.context).toInt(),
+            margins.end.dp(layout.context).toInt(),
+            margins.bottom.dp(layout.context).toInt()
+        )
     }
 }
