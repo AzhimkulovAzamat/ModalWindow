@@ -10,6 +10,7 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
 import net.breez.modalscreens.Margins
+import net.breez.modalscreens.ModalWindowConfig
 import net.breez.modalscreens.R
 import net.breez.modalscreens.StringOrResource
 import net.breez.modalscreens.databinding.BreezSnackbarLayoutBinding
@@ -46,7 +47,7 @@ class SimpleSnackbarBuilderImpl : BaseSnackbarBuilder(),
     @DrawableRes
     private var closeIcon: Int? = null
     override val layoutRes: Int
-        get() = R.layout.breez_snackbar_layout
+        get() = ModalWindowConfig.snackbarLayoutId
 
     override fun setIcon(icon: Int): SimpleSnackbarBuilder {
         this.icon = icon
