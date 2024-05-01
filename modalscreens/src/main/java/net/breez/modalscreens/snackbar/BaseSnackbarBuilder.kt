@@ -74,11 +74,6 @@ abstract class BaseSnackbarBuilder : SnackbarBuilder {
         (layout.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView).visibility =
             View.INVISIBLE
         layout.setBackgroundResource(android.R.color.transparent)
-        layout.setPadding(
-            margins.start.dp(layout.context).toInt(),
-            margins.top.dp(layout.context).toInt(),
-            margins.end.dp(layout.context).toInt(),
-            margins.bottom.dp(layout.context).toInt()
-        )
+        layout.setPadding(0, 0, 0, 0)
     }
 }
