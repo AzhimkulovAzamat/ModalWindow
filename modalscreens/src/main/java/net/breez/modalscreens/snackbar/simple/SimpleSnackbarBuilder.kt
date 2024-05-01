@@ -30,7 +30,7 @@ interface SimpleSnackbarBuilder: SnackbarBuilder {
     fun setCloseIcon(@DrawableRes icon: Int): SimpleSnackbarBuilder
 }
 
-class SimpleSnackbarBuilderImpl(): BaseSnackbarBuilder(),
+class SimpleSnackbarBuilderImpl : BaseSnackbarBuilder(),
     SimpleSnackbarBuilder {
 
     @DrawableRes

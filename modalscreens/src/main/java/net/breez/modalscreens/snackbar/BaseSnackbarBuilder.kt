@@ -3,20 +3,25 @@ package net.breez.modalscreens.snackbar
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
+import net.breez.modalscreens.Margins
+import net.breez.modalscreens.dp
 
 /**
  * Created by azamat on 9/8/23.
  */
 
-abstract class BaseSnackbarBuilder() : SnackbarBuilder {
+abstract class BaseSnackbarBuilder : SnackbarBuilder {
 
     private var gravity: Int = Gravity.TOP
     private var length: Int = Snackbar.LENGTH_LONG
+    private var margins: Margins = Margins.horizontal(6)
 
     @get:LayoutRes
     abstract val layoutRes: Int
@@ -40,6 +45,12 @@ abstract class BaseSnackbarBuilder() : SnackbarBuilder {
         val view = layout.children.last()
 
         (layout.layoutParams as? FrameLayout.LayoutParams)?.gravity = gravity
+        (layout.layoutParams as? FrameLayout.LayoutParams)?.setMargins(
+            margins.start.dp(container.context).toInt(),
+            margins.top.dp(container.context).toInt(),
+            margins.end.dp(container.context).toInt(),
+            margins.bottom.dp(container.context).toInt()
+        )
         removeInitialView(layout)
 
         bind(view, snackbar)
