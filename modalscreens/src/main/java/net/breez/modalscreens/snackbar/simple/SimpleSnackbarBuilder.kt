@@ -5,9 +5,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.IntRange
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
+import net.breez.modalscreens.Margins
 import net.breez.modalscreens.R
 import net.breez.modalscreens.StringOrResource
 import net.breez.modalscreens.databinding.BreezSnackbarLayoutBinding
@@ -22,12 +24,15 @@ import net.breez.modalscreens.toSOR
 interface SimpleSnackbarBuilder: SnackbarBuilder {
 
     fun setIcon(@DrawableRes icon: Int): SimpleSnackbarBuilder
-
     fun setMessage(@StringRes title: Int): SimpleSnackbarBuilder
     fun setMessage(title: String): SimpleSnackbarBuilder
     fun setMessageColor(@ColorRes color: Int): SimpleSnackbarBuilder
-
     fun setCloseIcon(@DrawableRes icon: Int): SimpleSnackbarBuilder
+
+    override fun setBackground(@DrawableRes resourceId: Int): SimpleSnackbarBuilder
+    override fun setLength(@IntRange(from = -2, to = 0) length: Int): SimpleSnackbarBuilder
+    override fun setGravity(gravity: Int): SimpleSnackbarBuilder
+    override fun setMargins(margin: Margins): SimpleSnackbarBuilder
 }
 
 class SimpleSnackbarBuilderImpl : BaseSnackbarBuilder(),
@@ -40,15 +45,8 @@ class SimpleSnackbarBuilderImpl : BaseSnackbarBuilder(),
     private var messageColor: Int? = null
     @DrawableRes
     private var closeIcon: Int? = null
-    @DrawableRes @ColorRes
-    private var background: Int? = null
     override val layoutRes: Int
         get() = R.layout.breez_snackbar_layout
-
-    override fun setBackground(resourceId: Int): SnackbarBuilder {
-        background = resourceId
-        return this
-    }
 
     override fun setIcon(icon: Int): SimpleSnackbarBuilder {
         this.icon = icon
@@ -75,8 +73,23 @@ class SimpleSnackbarBuilderImpl : BaseSnackbarBuilder(),
         return this
     }
 
+    override fun setLength(length: Int): SimpleSnackbarBuilder {
+        return super.setLength(length) as SimpleSnackbarBuilder
+    }
+
+    override fun setGravity(gravity: Int): SimpleSnackbarBuilder {
+        return super.setGravity(gravity) as SimpleSnackbarBuilder
+    }
+
+    override fun setMargins(margin: Margins): SimpleSnackbarBuilder {
+        return super.setMargins(margin) as SimpleSnackbarBuilder
+    }
+
+    override fun setBackground(resourceId: Int): SimpleSnackbarBuilder {
+        return super.setBackground(resourceId) as SimpleSnackbarBuilder
+    }
+
     override fun bind(view: View, snackbar: Snackbar) {
-        background?.let { view.setBackgroundResource(it) }
 
         val textViewTitle = view.findViewById<TextView>(R.id.textView_title)
         textViewTitle.text = message?.getString(view.context)
@@ -90,6 +103,7 @@ class SimpleSnackbarBuilderImpl : BaseSnackbarBuilder(),
 
         val imageViewClose = view.findViewById<ImageView>(R.id.imageView_close)
         closeIcon?.let {
+            imageViewClose.visibility = View.VISIBLE
             imageViewClose.setImageResource(it)
             imageViewClose.setOnClickListener {
                 snackbar.dismiss()

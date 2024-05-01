@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
 import net.breez.modalscreens.Margins
 import net.breez.modalscreens.dp
+import net.breez.modalscreens.snackbar.simple.SimpleSnackbarBuilder
 
 /**
  * Created by azamat on 9/8/23.
@@ -22,11 +25,19 @@ abstract class BaseSnackbarBuilder : SnackbarBuilder {
     private var gravity: Int = Gravity.TOP
     private var length: Int = Snackbar.LENGTH_LONG
     private var margins: Margins = Margins.horizontal(6)
+    @DrawableRes
+    @ColorRes
+    private var background: Int? = null
 
     @get:LayoutRes
     abstract val layoutRes: Int
 
     abstract fun bind(view: View, snackbar: Snackbar)
+
+    override fun setBackground(resourceId: Int): SnackbarBuilder {
+        background = resourceId
+        return this
+    }
 
     override fun setLength(length: Int): SnackbarBuilder {
         this.length = length
@@ -35,6 +46,11 @@ abstract class BaseSnackbarBuilder : SnackbarBuilder {
 
     override fun setGravity(gravity: Int): SnackbarBuilder {
         this.gravity = gravity
+        return this
+    }
+
+    override fun setMargins(margin: Margins): SnackbarBuilder {
+        margins = margin
         return this
     }
 
@@ -54,6 +70,7 @@ abstract class BaseSnackbarBuilder : SnackbarBuilder {
         removeInitialView(layout)
 
         bind(view, snackbar)
+        background?.let { view.setBackgroundResource(it) }
 
         return snackbar
     }
