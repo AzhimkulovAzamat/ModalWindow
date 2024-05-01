@@ -76,9 +76,9 @@ abstract class BaseSnackbarBuilder : SnackbarBuilder {
         layout.setBackgroundResource(android.R.color.transparent)
         layout.setPadding(
             margins.start.dp(layout.context).toInt(),
-            margins.start.dp(layout.context).toInt(),
-            margins.start.dp(layout.context).toInt(),
-            margins.start.dp(layout.context).toInt()
+            margins.top.dp(layout.context).toInt(),
+            margins.end.dp(layout.context).toInt(),
+            margins.bottom.dp(layout.context).toInt()
         )
     }
 }
