@@ -9,6 +9,7 @@ import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
+import net.breez.modalscreens.R
 
 /**
  * Created by azamat on 4/8/23.
@@ -18,7 +19,7 @@ abstract class BaseDialogBuilder : DialogBuilder {
 
     @DrawableRes
     @ColorRes
-    private var background: Int? = null
+    private var background: Int? = R.drawable.default_dialog_bakground
 
     @get:LayoutRes
     abstract val layoutRes: Int

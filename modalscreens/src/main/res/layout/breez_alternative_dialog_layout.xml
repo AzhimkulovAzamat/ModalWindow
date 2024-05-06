@@ -3,21 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="16dp">
 
     <ImageView
         android:id="@+id/imageView_icon"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_warning_24"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="ContentDescription" />
 
     <TextView
         android:id="@+id/textView_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="6dp"
+        android:layout_marginTop="12dp"
+        android:fontFamily="@font/roboto_medium"
+        android:textColor="#000000"
+        android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@id/imageView_icon"
         tools:text="Title" />
 
@@ -25,24 +30,32 @@
         android:id="@+id/textView_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:padding="6dp"
+        android:layout_marginTop="4dp"
+        android:textColor="#383838"
+        android:textSize="16sp"
         app:layout_constraintTop_toBottomOf="@id/textView_title"
         tools:text="Message" />
 
     <Button
-        android:id="@+id/positiveButton"
-        android:layout_width="match_parent"
+        android:id="@+id/negativeButton"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="OK"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/breez_negative_button_background"
+        android:text="Отмена"
+        app:layout_constraintEnd_toStartOf="@id/positiveButton"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView_message" />
 
     <Button
-        android:id="@+id/negativeButton"
-        android:layout_width="match_parent"
+        android:id="@+id/positiveButton"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="No"
-        app:layout_constraintTop_toBottomOf="@id/positiveButton" />
+        android:layout_marginTop="20dp"
+        android:background="@drawable/breez_positive_button_background"
+        android:text="OK"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/negativeButton"
+        app:layout_constraintTop_toBottomOf="@id/textView_message" />
 </androidx.constraintlayout.widget.ConstraintLayout>
