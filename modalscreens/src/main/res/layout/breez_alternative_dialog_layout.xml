@@ -43,7 +43,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="12dp"
         android:text="Отмена"
-        android:background="@drawable/breez_negative_button_background"
+        android:background="@android:color/transparent"
         app:layout_constraintEnd_toStartOf="@id/positiveButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textView_message" />
@@ -57,5 +57,5 @@
         android:background="@drawable/breez_positive_button_background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/negativeButton"
-        app:layout_constraintTop_toBottomOf="@id/negativeButton" />
+        app:layout_constraintTop_toBottomOf="@id/textView_message" />
 </androidx.constraintlayout.widget.ConstraintLayout>
