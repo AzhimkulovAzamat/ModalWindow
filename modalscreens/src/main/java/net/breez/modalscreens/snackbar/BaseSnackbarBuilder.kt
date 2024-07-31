@@ -3,19 +3,16 @@ package net.breez.modalscreens.snackbar
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.children
 import com.google.android.material.snackbar.Snackbar
 import net.breez.modalscreens.Margins
 import net.breez.modalscreens.R
 import net.breez.modalscreens.dp
-import net.breez.modalscreens.snackbar.simple.SimpleSnackbarBuilder
 
 /**
  * Created by azamat on 9/8/23.

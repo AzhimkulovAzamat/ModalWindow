@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
+import androidx.annotation.IdRes
 import androidx.annotation.IntRange
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
@@ -17,12 +18,13 @@ import net.breez.modalscreens.databinding.BreezSnackbarLayoutBinding
 import net.breez.modalscreens.snackbar.BaseSnackbarBuilder
 import net.breez.modalscreens.snackbar.SnackbarBuilder
 import net.breez.modalscreens.toSOR
+import java.lang.ref.WeakReference
 
 /**
  * Created by azamat on 9/8/23.
  */
 
-interface SimpleSnackbarBuilder: SnackbarBuilder {
+interface SimpleSnackbarBuilder : SnackbarBuilder {
 
     fun setIcon(@DrawableRes icon: Int): SimpleSnackbarBuilder
     fun setMessage(@StringRes title: Int): SimpleSnackbarBuilder
@@ -30,22 +32,32 @@ interface SimpleSnackbarBuilder: SnackbarBuilder {
     fun setMessageColor(@ColorRes color: Int): SimpleSnackbarBuilder
     fun setCloseIcon(@DrawableRes icon: Int): SimpleSnackbarBuilder
 
+    fun setCustomView(
+        @IdRes viewId: Int,
+        setup: WeakReference<(View) -> Unit>
+    ): SimpleSnackbarBuilder
+
     override fun setBackground(@DrawableRes resourceId: Int): SimpleSnackbarBuilder
     override fun setLength(@IntRange(from = -2, to = 0) length: Int): SimpleSnackbarBuilder
     override fun setGravity(gravity: Int): SimpleSnackbarBuilder
     override fun setMargins(margin: Margins): SimpleSnackbarBuilder
 }
 
-class SimpleSnackbarBuilderImpl : BaseSnackbarBuilder(),
+open class SimpleSnackbarBuilderImpl : BaseSnackbarBuilder(),
     SimpleSnackbarBuilder {
 
     @DrawableRes
     private var icon: Int? = null
     private var message: StringOrResource? = null
+
     @ColorRes
     private var messageColor: Int? = null
+
     @DrawableRes
     private var closeIcon: Int? = null
+
+    private var customViews = mutableMapOf<Int, WeakReference<(View) -> Unit>>()
+
     override val layoutRes: Int
         get() = ModalWindowConfig.snackbarLayoutId
 
@@ -74,6 +86,14 @@ class SimpleSnackbarBuilderImpl : BaseSnackbarBuilder(),
         return this
     }
 
+    override fun setCustomView(
+        viewId: Int,
+        setup: WeakReference<(View) -> Unit>
+    ): SimpleSnackbarBuilder {
+        customViews[viewId] = setup
+        return this
+    }
+
     override fun setLength(length: Int): SimpleSnackbarBuilder {
         return super.setLength(length) as SimpleSnackbarBuilder
     }
@@ -97,6 +117,11 @@ class SimpleSnackbarBuilderImpl : BaseSnackbarBuilder(),
 
         messageColor?.let {
             textViewTitle.setTextColor(ContextCompat.getColor(view.context, it))
+        }
+
+        for (settings in customViews) {
+            val customView = view.findViewById<View>(settings.key)
+            settings.value.get()?.invoke(customView)
         }
 
         val imageViewLogo = view.findViewById<ImageView>(R.id.imageView_logo)

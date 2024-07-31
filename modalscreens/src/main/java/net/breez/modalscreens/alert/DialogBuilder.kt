@@ -1,16 +1,10 @@
 package net.breez.modalscreens.alert
 
 import android.content.Context
-import android.view.View
-import androidx.annotation.DrawableRes
 import androidx.appcompat.app.AlertDialog
-
-/**
- * Created by azamat on 8/8/23.
- */
+import net.breez.dialogs.ModalType
 
 interface DialogBuilder {
-    fun setBackground(@DrawableRes resourceId: Int): DialogBuilder
 
-    fun create(context: Context): AlertDialog
+    fun create(context: Context, modalType: ModalType? = null): AlertDialog
 }

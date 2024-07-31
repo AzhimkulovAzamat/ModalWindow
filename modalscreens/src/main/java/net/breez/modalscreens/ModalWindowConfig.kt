@@ -37,15 +37,15 @@ class ModalWindowConfig private constructor() {
             return this
         }
 
-        fun setRadioLayoutId(layoutId: Int): Builder {
-            this.radioLayoutId = layoutId
-            return this
-        }
-
-        fun setCheckboxLayoutId(layoutId: Int): Builder {
-            this.checkboxLayoutId = layoutId
-            return this
-        }
+//        fun setRadioLayoutId(layoutId: Int): Builder {
+//            this.radioLayoutId = layoutId
+//            return this
+//        }
+//
+//        fun setCheckboxLayoutId(layoutId: Int): Builder {
+//            this.checkboxLayoutId = layoutId
+//            return this
+//        }
 
         fun setSnackbarLayoutId(layoutId: Int): Builder {
             this.snackbarLayoutId = layoutId
@@ -55,8 +55,8 @@ class ModalWindowConfig private constructor() {
         fun build(context: Context) {
             testNotificationLayout(context)
             testAlternativeLayout(context)
-            testRadioLayout(context)
-            testCheckboxLayout(context)
+//            testRadioLayout(context)
+//            testCheckboxLayout(context)
             testSnackbarLayout(context)
 
             Companion.notificationLayoutId = notificationLayoutId
@@ -288,22 +288,28 @@ class ModalWindowConfig private constructor() {
     companion object {
         @JvmStatic
         @LayoutRes
-        var notificationLayoutId: Int = R.layout.breez_notification_dialog_layout
+        internal var notificationLayoutId: Int = R.layout.breez_notification_dialog_layout
 
         @LayoutRes
-        var alternativeLayoutId: Int = R.layout.breez_alternative_dialog_layout
+        internal var alternativeLayoutId: Int = R.layout.breez_alternative_dialog_layout
 
         @LayoutRes
-        var radioLayoutId: Int = R.layout.breez_radio_dialog_layout
+        internal var radioLayoutId: Int = R.layout.breez_radio_dialog_layout
 
         @LayoutRes
-        var checkboxLayoutId: Int = R.layout.breez_radio_dialog_layout
+        internal var checkboxLayoutId: Int = R.layout.breez_radio_dialog_layout
 
         @LayoutRes
-        var snackbarLayoutId: Int = R.layout.breez_snackbar_layout
+        internal var snackbarLayoutId: Int = R.layout.breez_snackbar_layout
+
+        internal var dialogTypeDriver: DialogTypeDriver? = null
 
         fun newConfig(): Builder {
             return Builder()
         }
+    }
+
+    interface DialogTypeDriver {
+        fun obtain(view: View, modalType: ModalType)
     }
 }

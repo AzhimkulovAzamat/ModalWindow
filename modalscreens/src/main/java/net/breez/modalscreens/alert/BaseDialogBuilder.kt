@@ -5,40 +5,23 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
-import net.breez.modalscreens.R
-
-/**
- * Created by azamat on 4/8/23.
- */
+import net.breez.dialogs.ModalType
+import net.breez.dialogs.ModalWindowConfig
 
 abstract class BaseDialogBuilder : DialogBuilder {
 
-    @DrawableRes
-    @ColorRes
-    private var background: Int? = R.drawable.default_dialog_bakground
-
-    @get:LayoutRes
-    abstract val layoutRes: Int
-
     abstract fun bind(view: View, dialog: AlertDialog)
 
-    override fun setBackground(resourceId: Int): DialogBuilder {
-        background = resourceId
-        return this
-    }
+    abstract fun provideLayout(context: Context, modalType: ModalType?): View
 
-    override fun create(context: Context): AlertDialog {
-        val rootView = LayoutInflater.from(context)
-            .inflate(layoutRes, null, false)
+    override fun create(context: Context, modalType: ModalType?): AlertDialog {
+        val rootView = provideLayout(context, modalType)
         val alertDialog: AlertDialog =
             AlertDialog.Builder(context).setView(rootView).create()
 
         bind(rootView, alertDialog)
-        background?.let { rootView.setBackgroundResource(it) }
 
         alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
