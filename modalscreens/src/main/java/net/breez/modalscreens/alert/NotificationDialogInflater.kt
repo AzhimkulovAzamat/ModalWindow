@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import net.breez.dialogs.R
+import net.breez.modalscreens.R
 
 internal class NotificationDialogInflater : DialogInflater {
 

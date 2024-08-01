@@ -4,7 +4,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import net.breez.modalscreens.OnClickedListener
 import net.breez.modalscreens.alert.collection.BreezRadioViewHolder
 import net.breez.modalscreens.alert.collection.RadioViewHolder
 import net.breez.modalscreens.databinding.BreezRowRadioLayoutBinding

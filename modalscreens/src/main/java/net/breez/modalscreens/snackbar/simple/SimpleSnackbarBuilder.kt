@@ -10,14 +10,12 @@ import androidx.annotation.IntRange
 import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import com.google.android.material.snackbar.Snackbar
+import net.breez.modalscreens.DialogString
 import net.breez.modalscreens.Margins
 import net.breez.modalscreens.ModalWindowConfig
 import net.breez.modalscreens.R
-import net.breez.modalscreens.StringOrResource
-import net.breez.modalscreens.databinding.BreezSnackbarLayoutBinding
 import net.breez.modalscreens.snackbar.BaseSnackbarBuilder
 import net.breez.modalscreens.snackbar.SnackbarBuilder
-import net.breez.modalscreens.toSOR
 import java.lang.ref.WeakReference
 
 /**
@@ -48,7 +46,7 @@ open class SimpleSnackbarBuilderImpl : BaseSnackbarBuilder(),
 
     @DrawableRes
     private var icon: Int? = null
-    private var message: StringOrResource? = null
+    private var message: DialogString? = null
 
     @ColorRes
     private var messageColor: Int? = null
@@ -67,12 +65,12 @@ open class SimpleSnackbarBuilderImpl : BaseSnackbarBuilder(),
     }
 
     override fun setMessage(title: Int): SimpleSnackbarBuilder {
-        this.message = title.toSOR()
+        this.message = DialogString(title)
         return this
     }
 
     override fun setMessage(title: String): SimpleSnackbarBuilder {
-        this.message = title.toSOR()
+        this.message = DialogString(title)
         return this
     }
 

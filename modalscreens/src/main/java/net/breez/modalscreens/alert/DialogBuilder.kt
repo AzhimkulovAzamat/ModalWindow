@@ -2,7 +2,7 @@ package net.breez.modalscreens.alert
 
 import android.content.Context
 import androidx.appcompat.app.AlertDialog
-import net.breez.dialogs.ModalType
+import net.breez.modalscreens.ModalType
 
 interface DialogBuilder {
 

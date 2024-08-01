@@ -3,12 +3,9 @@ package net.breez.modalscreens.alert
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.view.LayoutInflater
 import android.view.View
-import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AlertDialog
-import net.breez.dialogs.ModalType
-import net.breez.dialogs.ModalWindowConfig
+import net.breez.modalscreens.ModalType
 
 abstract class BaseDialogBuilder : DialogBuilder {
 
